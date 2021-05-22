@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="Dashboard">
   <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-  <title>DPGR-Planning</title>
+  <title>DPGR-PVs</title>
 
   <!-- Favicons -->
   <link href="img/logo.png" rel="icon">
@@ -17,13 +17,11 @@
   <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!--external css-->
   <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="css/zabuto_calendar.css">
-  <link rel="stylesheet" type="text/css" href="lib/gritter/css/jquery.gritter.css" />
-  <link href="lib/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
+ 
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet">
   <link href="css/style-responsive.css" rel="stylesheet">
-  <script src="lib/chart-master/Chart.js"></script>
+  
 
   <!-- =======================================================
     Template Name: Dashio
@@ -65,7 +63,7 @@
           <p class="centered"><a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="60"></a></p>
           <h5 class="centered">Employé</h5>
           <li class="mt">
-            <a class="active" href="index_employee.html">
+            <a  href="index_employee.html">
               <i class="fa fa-calendar"></i>
               <span>Planning</span>
               </a>
@@ -114,13 +112,13 @@
               </a>
           </li>
            <li class="sub-menu">
-            <a href="javascript:;">
+            <a class="active" href="javascript:;">
               <i class="fa fa-star"></i>
               <span>Evaluation</span>
               </a>
             <ul class="sub">
               <li><a href="fiches_evaluation_employee.html">Fiches d'évaluations</a></li>
-              <li><a href="pv_employee.html">PVs</a></li>
+              <li class="active" ><a href="pv_employee.html">PVs</a></li>
               
             </ul>
           </li>
@@ -149,37 +147,178 @@
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> Calendar</h3>
-        <!-- page start-->
-        <div class="row mt">
-          <aside class="col-lg-3 mt">
-            <h4><i class="fa fa-angle-right"></i> Draggable Events</h4>
-            <div id="external-events">
-              <div class="external-event label label-theme">My Event 1</div>
-              <div class="external-event label label-success">My Event 2</div>
-              <div class="external-event label label-info">My Event 3</div>
-              <div class="external-event label label-warning">My Event 4</div>
-              <div class="external-event label label-danger">My Event 5</div>
-              <div class="external-event label label-default">My Event 6</div>
-              <div class="external-event label label-theme">My Event 7</div>
-              <div class="external-event label label-info">My Event 8</div>
-              <div class="external-event label label-success">My Event 9</div>
-              <p class="drop-after">
-                <input type="checkbox" id="drop-remove"> Remove After Drop
-              </p>
+        <h3><i class="fa fa-angle-right"></i> Basic Table Examples</h3>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i> Basic Table</h4>
+              <hr>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </aside>
-          <aside class="col-lg-9 mt">
-            <section class="panel">
-              <div class="panel-body">
-                <div id="calendar" class="has-toolbar"></div>
-              </div>
-            </section>
-          </aside>
+          </div>
+          <!-- /col-md-12 -->
+          <div class="col-md-12 mt">
+            <div class="content-panel">
+              <table class="table table-hover">
+                <h4><i class="fa fa-angle-right"></i> Hover Table</h4>
+                <hr>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Simon</td>
+                    <td>Mosa</td>
+                    <td>@twitter</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- /col-md-12 -->
         </div>
-        <!-- page end-->
+        <!-- row -->
+        <div class="row mt">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <table class="table table-striped table-advance table-hover">
+                <h4><i class="fa fa-angle-right"></i> Advanced Table</h4>
+                <hr>
+                <thead>
+                  <tr>
+                    <th><i class="fa fa-bullhorn"></i> Company</th>
+                    <th class="hidden-phone"><i class="fa fa-question-circle"></i> Descrition</th>
+                    <th><i class="fa fa-bookmark"></i> Profit</th>
+                    <th><i class=" fa fa-edit"></i> Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <a href="basic_table.html#">Company Ltd</a>
+                    </td>
+                    <td class="hidden-phone">Lorem Ipsum dolor</td>
+                    <td>12000.00$ </td>
+                    <td><span class="label label-info label-mini">Due</span></td>
+                    <td>
+                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
+                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a href="basic_table.html#">
+                        Dashio co
+                        </a>
+                    </td>
+                    <td class="hidden-phone">Lorem Ipsum dolor</td>
+                    <td>17900.00$ </td>
+                    <td><span class="label label-warning label-mini">Due</span></td>
+                    <td>
+                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
+                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a href="basic_table.html#">
+                        Another Co
+                        </a>
+                    </td>
+                    <td class="hidden-phone">Lorem Ipsum dolor</td>
+                    <td>14400.00$ </td>
+                    <td><span class="label label-success label-mini">Paid</span></td>
+                    <td>
+                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
+                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a href="basic_table.html#">Dashio ext</a>
+                    </td>
+                    <td class="hidden-phone">Lorem Ipsum dolor</td>
+                    <td>22000.50$ </td>
+                    <td><span class="label label-success label-mini">Paid</span></td>
+                    <td>
+                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
+                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a href="basic_table.html#">Total Ltd</a>
+                    </td>
+                    <td class="hidden-phone">Lorem Ipsum dolor</td>
+                    <td>12120.00$ </td>
+                    <td><span class="label label-warning label-mini">Due</span></td>
+                    <td>
+                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
+                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
+                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /content-panel -->
+          </div>
+          <!-- /col-md-12 -->
+        </div>
+        <!-- /row -->
       </section>
-      <!-- /wrapper -->
     </section>
     <!-- /MAIN CONTENT -->
     <!--main content end-->
@@ -198,7 +337,7 @@
           -->
           Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
         </div>
-        <a href="index_doctorant.html" class="go-top">
+        <a href="basic_table.html#" class="go-top">
           <i class="fa fa-angle-up"></i>
           </a>
       </div>
@@ -207,8 +346,6 @@
   </section>
   <!-- js placed at the end of the document so the pages load faster -->
   <script src="lib/jquery/jquery.min.js"></script>
-  <script src="lib/jquery-ui-1.9.2.custom.min.js"></script>
-  <script src="lib/fullcalendar/fullcalendar.min.js"></script>
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>
   <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
   <script src="lib/jquery.scrollTo.min.js"></script>
@@ -216,8 +353,7 @@
   <!--common script for all pages-->
   <script src="lib/common-scripts.js"></script>
   <!--script for this page-->
-  <script src="lib/calendar-conf-events.js"></script>
-
+  
 </body>
 
 </html>
