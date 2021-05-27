@@ -20,10 +20,23 @@ def doctorant(request):
 def employee(request):
  
    return render(request,'gestion_FD/index_employee.html')
+def dpgr(request):
+ 
+   return render(request,'gestion_FD/index_dpgr.html')   
+def planifier_pres(request):
+ 
+   return render(request,'gestion_FD/presentations.html')    
+def archive(request):
+   doctorants=Doctorant.objects.all()
+
+   for doc in doctorants:
+            if (doc.compte==request.user) :   
+              d=doc
+   etats=Etat_avancement.objects.all().filter(doctorant=d)
+   return render(request,'gestion_FD/archive_doc.html',context={'etats':etats})   
 def deposer_etat(request):
    if request.method == 'POST' and request.FILES['etat']:
-        myfile = request.FILES['etat'].file.read()
-        
+        myfile = request.FILES['etat']
         pj=PieceJointe(lien= myfile)
         pj.save()
         doctorants=Doctorant.objects.all()

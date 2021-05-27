@@ -9,7 +9,7 @@ class PieceJointe(models.Model):
      ,('EXCEL','EXCEL'),
      ('IMAGE','IMAGE'),
      ('LIEN','LIEN'))
-    lien=models.BinaryField(null=True)
+    lien=models.FileField(null=True)
     type_piece=models.CharField(max_length=40,choices=TYPES)
 class Dossier_Doctorant(models.Model):
     pieces=models.ManyToManyField(PieceJointe)
