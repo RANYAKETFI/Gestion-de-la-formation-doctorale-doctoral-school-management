@@ -41,7 +41,8 @@ class Doctorant(models.Model):
 class Role(models.Model):
     ROLES=(('CS','CS'),('CFD','CFD'),('JURY','JURY'),('PROF','PROF'),('DT','DT'),('ADPGR','ADPGR'),('DAPGR','DAPGR'))
     nom=models.CharField(max_length=100,choices=ROLES)
-
+    def __str__(self):
+     return self.nom
 
 class Employe(models.Model):
     SEXES= (('F','F'),('M','M'))
@@ -67,14 +68,19 @@ class Etat_avancement(models.Model):
     doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE)
     etat=models.ForeignKey(PieceJointe,on_delete=models.CASCADE)
 
-
+class Presentation(models.Model):
+    date_pres=models.DateField(default=datetime.now())
+    doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)
+    jury=models.ManyToManyField(Employe)
+    heure_debut=models.TimeField()
+    heure_fin=models.TimeField()
 class Fiche_evaluation(models.Model):
     date_eval=models.DateField(default=datetime.now())
     fichier=models.ForeignKey(PieceJointe,on_delete=models.CASCADE)
     jury=models.ManyToManyField(Employe)
-    valide=models.BooleanField(default=False)
+    valide=models.BooleanField(null=True)
     doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)
-    
+    Presentation=models.ForeignKey(Presentation,on_delete=models.CASCADE,default=1)
 
 class Reunion(models.Model):
     date_reun=models.DateField()

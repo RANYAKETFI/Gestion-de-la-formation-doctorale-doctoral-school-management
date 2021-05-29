@@ -12,9 +12,11 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th><b> Numéro </b> </th>
-                    <th><b>Date de dépot </b> </th>
-                    <th> <b> Fichier </b> </th>
+                    <th><h4><b> Numéro </b> </h4></th>
+                    <th><h4><b>Date de dépot </b></h4> </th>
+                    <th><h4> <b> Fichier </b> </h4></th>
+                    <th><h4> <b> Fiche évaluation </b> </h4></th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -23,7 +25,9 @@
                   <tr>
                     <td>{{   forloop.counter  }}</td>
                     <td>{{ e.date_etat_avancement }}</td>
+                    <td> <a href="{{ e.etat.lien.url }}"> {{e.etat.lien}}</a></td>
                     <td> <a href="{{ e.etat.lien.url }}"> lien</a></td>
+
                   </tr>
 
                   {% endfor%}

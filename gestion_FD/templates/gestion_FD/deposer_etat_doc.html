@@ -19,32 +19,24 @@
              
               {% csrf_token %}
               <!-- Redirect browsers with JavaScript disabled to the origin page -->
-              <noscript>
-                  <input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/">
-                </noscript>
+              
               <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-              <div class="row fileupload-buttonbar">
-                <div class="col-lg-8">
                   <!-- The fileinput-button span is used to style the file input field as button -->
-             <span class="btn btn-success fileinput-button">
+             <center>
+               <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
-                    <span> <h2> Choisir  état d'avancement </h2></span>
+                    <span> <h4> Choisir  état d'avancement </h4></span>
                   <input type="file" name="etat" multiple>
 
                   </span>
-                  <br> </br>
-                  <button class="btn btn-theme" href="#" type="submit" style="background-color:#43b1a9;">Déposer</button>
+                </center>
+                  <center>
+                 <br>
+                    <button class="btn btn-round btn-success" href="#" type="submit" style="background-color:#128880;">Déposer</button>
                   <span class="fileupload-process"></span>
-                </div>
-                <!-- /col-lg-7 -->
-                <!-- The global progress state -->
-              
-                  <!-- The extended global progress state -->
-                  <div class="progress-extended">
-                    &nbsp;
-                  </div>
-                </div>
-                <!-- /col-lg-5 -->
+                </center>
+               
+                  
               </div>
               <!-- /row -->
               <!-- The table listing the files available for upload/download -->
@@ -57,29 +49,23 @@
             </form>
           </center>
             {% if uploaded_file_url %}
-            <h2>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></h2>
+            <h4>état d'avancement déposé avec succés à : <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></h4>
           {% endif %}
             <br>
             <div class="content-panel">
               <div class="panel-body">
-                <h2>Remarque:</h2>
-                <h3>
+                <center>
+                <h3>Remarque:</h3>
+                <h4>
+                  <br>
                   <b> Vous Pouvez suivre le modèle d'état d'avancement suivant : <a href="https://drive.google.com/file/d/1dlw9YcNISHRhneWYi8KzX5xgIKFkGB3L/view"> Modèle </a> </b>
-                </h3>
-               
+                </h4>
+              </center>
               </div>
             </div>
             <!-- /panel -->
             <!-- The blueimp Gallery widget -->
-            <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
-              <div class="slides"></div>
-              <h3 class="title"></h3>
-              <a class="prev">‹</a>
-              <a class="next">›</a>
-              <a class="close">×</a>
-              <a class="play-pause"></a>
-              <ol class="indicator"></ol>
-            </div>
+           
           </div>
         </div>
       </section>

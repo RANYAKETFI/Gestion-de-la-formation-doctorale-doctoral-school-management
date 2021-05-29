@@ -3,8 +3,96 @@
 {% load static %}
     <section id="main-content">
       <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> Basic Table Examples</h3>
+        <h3><i class="fa fa-angle-right"></i>Planifier une présentation : {{titre}}</h3>
+        <div class="row mt">
+          <!--  DATE PICKERS -->
+          <div class="col-lg-12">
+            <div class="form-panel">
+        <form method="POST" class="form-horizontal style-form">
+          {% csrf_token %}
+          <div class="form-group">
+            <label class="control-label col-md-3"> <b> Titre de la présentation :</b> </label>
+            <div class="col-md-3 col-xs-11">
+              <input class="form-control size 100" name="titre" size="100" type="text" value="">
+              <span class="help-block">Tapez un titre</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3"><b>Date : </b></label>
+            <div class="col-md-3 col-xs-11">
+              <div data-date-viewmode="years" data-date-format="yyyy-mm-dd" data-date="2021-01-01" class="input-append date dpYears" required>
+                <input type="text" readonly="" name="date" value="2021-01-01" size="16" class="form-control">
+                <span class="input-group-btn add-on">
+                  <button class="btn btn-theme" type="button"><i class="fa fa-calendar"></i></button>
+                  </span>
+              </div>
+              <span class="help-block">Selectionner une  date</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3"> <b>Heure début :</b> </label>
+            <div class="col-md-4">
+              <div class="input-group bootstrap-timepicker">
+                <input type="text" name="heured" class="form-control timepicker-default" required>
+                <span class="input-group-btn">
+                  <button class="btn btn-theme04" type="button"><i class="fa fa-clock-o"></i></button>
+                  </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-md-3"><b>Heure Fin :</b></label>
+            <div class="col-md-4">
+              <div class="input-group bootstrap-timepicker">
+                <input type="text" name="heuref" required class="form-control timepicker-default">
+                <span class="input-group-btn">
+                  <button class="btn btn-theme04" type="button"><i class="fa fa-clock-o"></i></button>
+                  </span>
+              </div>
+            </div>
+            </div>
+            <div class="form-group">
+
+              <label class="control-label col-md-3"><b>Doctorant :</b></label>
+              <div class="col-md-4">
+                <div class="input-group bootstrap-form-select">
+              <select required class="form-control selectpicker"  name="doctorant" id="doctorant">
+                {% for d in doctorants %}
+                <option class="form-control option" name="doctorant"  value="{{d.id}}">{{d.matricule}} -- {{d.nom}} {{d.prenom}} </option>
+                <b>hello</b>
+                
+{%endfor%}
+              </select>
+           </div>
+           </div>
+
+            </div>
+            <div class="form-group">
+
+              <label class="control-label col-md-3"><b>Jury :</b></label>
+              <div class="col-md-4">
+                <div class="">
+
+                
+                {% for e in employes %}
+                <input class="form-check-input" type="checkbox" id="jury" name="jury" value="{{e.id}}"> {{e.nom}} {{e.prenom}} </input>
+              <br>
+                {%endfor%}
+             
+           </div>
+           </div>
+
+            </div>
+            
+            <button class="btn btn-round btn-success" href="#" type="submit" style="background-color:#128880;">planifier</button>
+          </div>
+        </form>
+        </div>
+        </div>
+        </div>
+        
 
       </section>
     </section>
+  
     {% endblock content%}
