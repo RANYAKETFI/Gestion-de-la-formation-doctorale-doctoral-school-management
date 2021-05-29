@@ -17,6 +17,8 @@ urlpatterns = [
         path('employee', views.employee,name="emplpoyee"),
         path('doctorant', views.doctorant,name="doctorant"),
         path('logout', views.logout,name="logout"),
+        path('employee/evaluation_jury', views.evaluation_jury,name="evaluation_jury"),
+        path('employee/valider_evaluation', views.valider_eval,name="valider_evaluation"),
 
 ]
 if settings.DEBUG: 

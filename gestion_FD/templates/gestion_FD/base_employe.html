@@ -1,0 +1,171 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="Dashboard">
+  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+  <title>DPGR-Planning</title>
+
+  <!-- Favicons -->
+  <link href="{% static "img/logo.png" %}" rel="icon">
+  <link href="{% static "img/apple-touch-icon.png" %}" rel="apple-touch-icon">
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static "lib/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+  <!--external css-->
+  <link href="{% static "lib/font-awesome/css/font-awesome.css" %}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{% static "css/zabuto_calendar.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static "lib/gritter/css/jquery.gritter.css" %}" />
+  <link href="{% static "lib/fullcalendar/bootstrap-fullcalendar.css" %}" rel="stylesheet" />
+  <link href="{% static "lib/advanced-datatable/css/demo_page.css"%}" rel="stylesheet" />
+  <link href="{% static "lib/advanced-datatable/css/demo_table.css" %}" rel="stylesheet" />
+  <link rel= "stylesheet" href="{% static "lib/advanced-datatable/css/DT_bootstrap.css"%}" />
+  <!-- Custom styles for this template -->
+  <link href="{% static "css/style.css" %}" rel="stylesheet">
+  <link href="{% static "css/style-responsive.css" %}" rel="stylesheet">
+  <script src="{% static "lib/chart-master/Chart.js" %}"></script>
+<link rel="stylesheet" href="{% static "http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css" %}">
+  <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+  <link rel="stylesheet" href="{% static "lib/file-uploader/css/jquery.fileupload.css" %}">
+  <link rel="stylesheet" href="{% static "lib/file-uploader/css/jquery.fileupload-ui.css" %}">
+  <!-- CSS adjustments for browsers with JavaScript disabled -->
+  <noscript>
+      <link rel="stylesheet" href="{% static "lib/file-uploader/css/jquery.fileupload-noscript.css" %}">
+    </noscript>
+  <noscript>
+      <link rel="stylesheet" href="{% static "lib/file-uploader/css/jquery.fileupload-ui-noscript.css" %}">
+    </noscript>
+  <!-- =======================================================
+    Template Name: Dashio
+    Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+    Author: TemplateMag.com
+    License: https://templatemag.com/license/
+  ======================================================= -->
+</head>
+
+<body>
+  <section id="container">
+
+    <header class="header black-bg">
+      <div class="sidebar-toggle-box">
+        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+      </div>
+      <a href= "{% static  "index.html" %}" class="logo"><b>Formation<span>Doctorale</span></b></a>
+    
+      <div class="top-menu">
+        <ul class="nav pull-right top-menu">
+          <li><a class="logout" href="/logout">Déconnexion</a></li>
+        </ul>
+      </div>
+    </header>
+  
+    <aside>
+      <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+          <p class="centered"><a href="profile.html"><img src="{% static  "img/ui-sam.jpg" %}" class="img-circle" width="60"></a></p>
+          <h5 class="centered">Employé</h5>
+          <li class="mt">
+            <a  href="index_employee.html">
+              <i class="fa fa-calendar"></i>
+              <span>Planning</span>
+              </a>
+          </li>
+            <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-pencil"></i>
+              <span>Inscription </span>
+              </a>
+                <ul class="sub">
+              <li><a href="inscription_cfd.html">Validation CFD</a></li>
+              <li><a href="inscription_cs.html">Validation CS</a></li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-folder-open"></i>
+              <span>Réinscription </span>
+              </a>
+                <ul class="sub">
+              <li><a href="reinscription_cfd.html">Validation CFD</a></li>
+              <li><a href="reinscription_cs.html">Validation CS</a></li>
+            </ul>
+          </li>
+           <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-graduation-cap"></i>
+              <span>Thèses </span>
+              </a>
+                <ul class="sub">
+              <li><a href="deposer_theses_cfd.html">Déposer la liste des thèses</a></li>
+              <li><a href="liste_theses.html">Thèses des doctorants</a></li>
+            </ul>
+          </li>
+          <li >
+            <a href="etat_avancement_employee.html" >
+              <i class="fa fa-book"></i>
+              <span>Etats d'avancement</span>
+              </a>
+          </li>
+      
+            <li>
+            <a href="notes_prof.html">
+              <i class="fa fa-table"></i>
+              <span>Notes des doctorants</span>
+              </a>
+          </li>
+           <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-star"></i>
+              <span>Evaluation</span>
+              </a>
+            <ul class="sub">
+              <li><a href="employee/evaluation_jury">Fiches d'évaluations</a></li>
+              <li><a href="pv_employee.html">PVs</a></li>
+              
+            </ul>
+          </li>
+
+            <li>
+            <a href="profile_employee.html">
+              <i class="fa fa-user-circle"></i>
+              <span>Profile </span>
+              </a>
+          </li>
+          
+        </ul>
+         <div class="centered">
+            
+            <img src="{% static "img/logo.png" %}" height="50" width="50" />
+           
+           
+          </div>
+        <!-- sidebar menu end-->
+      </div>
+    </aside>
+     <section id="container">
+        {% block content %}
+        {% endblock %}
+    </section>
+
+    <!-- js placed at the end of the document so the pages load faster -->
+  <script src="{% static "lib/jquery/jquery.min.js" %}" ></script>
+  <script src="{% static "lib/jquery-ui-1.9.2.custom.min.js" %}"></script>
+  <script src="{% static "lib/fullcalendar/fullcalendar.min.js" %}"></script>
+  <script src="{% static "lib/bootstrap/js/bootstrap.min.js" %}"></script>
+  <script class="include" type="text/javascript" src="{% static "lib/jquery.dcjqaccordion.2.7.js" %}"></script>
+  <script src="{% static "lib/jquery.scrollTo.min.js" %}"></script>
+  <script src="{% static "lib/jquery.nicescroll.js" %}" type="text/javascript"></script>
+  <!--common script for all pages-->
+  <script src="{% static "lib/common-scripts.js" %}"></script>
+  <!--script for this page-->
+  <script src="{% static "lib/calendar-conf-events.js" %}"></script>
+
+</body>
+
+</html>

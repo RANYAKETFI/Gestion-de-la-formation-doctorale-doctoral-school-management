@@ -72,7 +72,7 @@ class Fiche_evaluation(models.Model):
     date_eval=models.DateField(default=datetime.now())
     fichier=models.ForeignKey(PieceJointe,on_delete=models.CASCADE)
     jury=models.ManyToManyField(Employe)
-    valide=models.BooleanField(default=False)
+    valide=models.BooleanField(null=True)
     doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)
     
 
