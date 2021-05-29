@@ -13,7 +13,7 @@ urlpatterns = [
         path('doctorant/archive', views.archive,name="archive"),
         path('dpgr', views.dpgr,name="dpgr"),
         path('dpgr/planifier_pres', views.planifier_pres,name="planifier_pres"),
-
+        path('employee/deposer_these_cfd', views.deposer_these_cfd,name="deposer_these_cfd"),
         path('employee', views.employee,name="emplpoyee"),
         path('doctorant', views.doctorant,name="doctorant"),
         path('logout', views.logout,name="logout"),

@@ -60,8 +60,8 @@ class These(models.Model):
     valide_cfd=models.BooleanField(default=False)
     prise=models.BooleanField(default=False)
     dt=models.ManyToManyField(Employe)
-    doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)
-    date=models.DateField()
+    doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=None, null=True)
+    date=models.DateField(default=None, null=True)
 class Etat_avancement(models.Model):
     date_etat_avancement=models.DateField() 
     doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE)
