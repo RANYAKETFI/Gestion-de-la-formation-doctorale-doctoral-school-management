@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Doctorant, Fiche_evaluation,User,Employe,Etat_avancement,PieceJointe
+from .models import Doctorant, Fiche_evaluation, Presentation,User,Employe,Etat_avancement,PieceJointe
 from django.contrib import messages
 from django.template import RequestContext
 from django.conf import settings
@@ -86,33 +86,42 @@ def logout(request):
    return redirect('login')
 
 def evaluation_jury(request):
-       if request.method == 'POST' and request.FILES['fiche']:
-        myfile = request.FILES['fiche']
-        date_eval=request.POST['Date']
-        id_doc=request.POST['doctorant']
-        doctorant=Doctorant.objects.filter(id=id_doc).first()
-        pj=PieceJointe(lien= myfile)
-        pj.save()
-        employe=Employe.objects.all()
-        for emp in employe: 
-          if (emp.compte==request.user):
-                 this_emp=emp
-                 
-        fiche=Fiche_evaluation(date_eval=date_eval,fichier=pj,doctorant=doctorant)
-        fiche.save()
-        fiche.jury.add(this_emp)
-        fiche.save()
-        doctorants=Doctorant.objects.all()
 
-        return render(request, 'gestion_FD/fiches_evaluation_employee.html', {
-            'uploaded_file_url': "succés ",
-            'jury': True,
-            'doctorants': doctorants
-        })
-       # Gestion des roles
-       doctorants=Doctorant.objects.all()
+       if request.method == 'POST' :
+              if request.POST.get('mydocs'):
+                     id1=request.POST['mydocs']
+                     d=Doctorant.objects.filter(id=id1).first()
+                     evals=Fiche_evaluation.objects.filter(doctorant=d)
+                     return render(request, 'gestion_FD/fiches_evaluation_employee.html', {
+                        'fiches': evals
+                           })
+                     
+              if request.POST.get('Date'):
+                     myfile = request.FILES['fiche']
+                     date_eval=request.POST['Date']
+                     id_doc=request.POST['doctorant']
+                     doctorant=Doctorant.objects.filter(id=id_doc).first()
+                     pj=PieceJointe(lien= myfile)
+                     pj.save()
+                     employe=Employe.objects.all()
+                     for emp in employe: 
+                        if (emp.compte==request.user):
+                           this_emp=emp
+                 
+                     fiche=Fiche_evaluation(date_eval=date_eval,fichier=pj,doctorant=doctorant)
+                     fiche.save()
+                     fiche.jury.add(this_emp)
+                     fiche.save()
+                     doctorants=Doctorant.objects.all()
+
+                     return render(request, 'gestion_FD/fiches_evaluation_employee.html', {
+                         'uploaded_file_url': "succés ",
+                        })
+        
+       # Préparation des paramètres à passer
        employe=Employe.objects.all()
        jury=False
+       mydocs=[]
        for emp in employe: 
           if (emp.compte==request.user):
                  this_emp=emp
@@ -120,13 +129,39 @@ def evaluation_jury(request):
                  for role in roles:
                         if (role.nom=='JURY'):
                                 jury=True
+                 #Récupérer les doctorants de ce jury
+                 pres=Presentation.objects.all()
+                 for p in pres:
+                        ju=p.jury.all()
+                        doc=p.doctorant
+                        for j in ju:
+                               if (j.compte==request.user):
+                                      mydocs.append(doc)
+                 mydocs= list(dict.fromkeys(mydocs))
+                        
           
        context={
-        'doctorants':doctorants,
-        'jury':jury
+        'jury':jury,
+        'mydocs': mydocs,
+        'doctorants':mydocs
          }
        return render(request,'gestion_FD/fiches_evaluation_employee.html',context) 
 
 def valider_eval(request):
-     
-   return render(request,'gestion_FD/valider_evaluation.html')    
+   employe=Employe.objects.all()
+   cs=False
+   for emp in employe: 
+          if (emp.compte==request.user):
+                 this_emp=emp
+                 roles=this_emp.role.all()
+                 for role in roles:
+                        if (role.nom=='CS'):
+                                cs=True
+   fiches_nouvelles=Fiche_evaluation.objects.filter(valide__isnull=True)
+   archive=Fiche_evaluation.objects.filter(valide__isnull=False)
+   context={
+        'cs':cs,
+         'new': fiches_nouvelles,
+         'archive': archive
+         }
+   return render(request,'gestion_FD/valider_evaluation.html',context)   

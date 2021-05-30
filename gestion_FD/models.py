@@ -66,7 +66,13 @@ class Etat_avancement(models.Model):
     date_etat_avancement=models.DateField() 
     doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE)
     etat=models.ForeignKey(PieceJointe,on_delete=models.CASCADE)
-
+    
+class Presentation(models.Model):
+    date_pres=models.DateField(default=datetime.now())
+    doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)
+    jury=models.ManyToManyField(Employe)
+    heure_debut=models.TimeField()
+    heure_fin=models.TimeField()
 
 class Fiche_evaluation(models.Model):
     date_eval=models.DateField(default=datetime.now())
