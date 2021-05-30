@@ -35,8 +35,12 @@
                   <td><a href="{{ f.fichier.lien.url}}">Fiche</a></td>
                   
                   <td>
-                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                      <form  role="form" id="validation"  method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                      <input type="hidden" name="id_fiche" value="{{f.id}}"> 
+                      <button class="btn btn-success btn-xs" name="accept" type="submit" value="accepted"><i class="fa fa-check"></i></button>
+                      <button class="btn btn-danger btn-xs" name="refuse" type="submit" value="refused"><i class="fa fa-trash-o "></i></button>
+                      </form>
                   </td>
             
                  

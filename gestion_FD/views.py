@@ -87,37 +87,6 @@ def logout(request):
 
 def evaluation_jury(request):
 
-       if request.method == 'POST' :
-              if request.POST.get('mydocs'):
-                     id1=request.POST['mydocs']
-                     d=Doctorant.objects.filter(id=id1).first()
-                     evals=Fiche_evaluation.objects.filter(doctorant=d)
-                     return render(request, 'gestion_FD/fiches_evaluation_employee.html', {
-                        'fiches': evals
-                           })
-                     
-              if request.POST.get('Date'):
-                     myfile = request.FILES['fiche']
-                     date_eval=request.POST['Date']
-                     id_doc=request.POST['doctorant']
-                     doctorant=Doctorant.objects.filter(id=id_doc).first()
-                     pj=PieceJointe(lien= myfile)
-                     pj.save()
-                     employe=Employe.objects.all()
-                     for emp in employe: 
-                        if (emp.compte==request.user):
-                           this_emp=emp
-                 
-                     fiche=Fiche_evaluation(date_eval=date_eval,fichier=pj,doctorant=doctorant)
-                     fiche.save()
-                     fiche.jury.add(this_emp)
-                     fiche.save()
-                     doctorants=Doctorant.objects.all()
-
-                     return render(request, 'gestion_FD/fiches_evaluation_employee.html', {
-                         'uploaded_file_url': "succés ",
-                        })
-        
        # Préparation des paramètres à passer
        employe=Employe.objects.all()
        jury=False
@@ -145,9 +114,47 @@ def evaluation_jury(request):
         'mydocs': mydocs,
         'doctorants':mydocs
          }
-       return render(request,'gestion_FD/fiches_evaluation_employee.html',context) 
+       if request.method == 'POST' :
+              if request.POST.get('mydocs'):
+                     id1=request.POST['mydocs']
+                     d=Doctorant.objects.filter(id=id1).first()
+                     evals=Fiche_evaluation.objects.filter(doctorant=d)
+                     return render(request, 'gestion_FD/fiches_evaluation_employee.html', {
+                        'fiches': evals,
+                        'jury': jury,
+                        'mydocs': mydocs,
+                        'doctorants':mydocs
+                           })
+                     
+              if request.POST.get('Date'):
+                     myfile = request.FILES['fiche']
+                     date_eval=request.POST['Date']
+                     id_doc=request.POST['doctorant']
+                     doctorant=Doctorant.objects.filter(id=id_doc).first()
+                     pj=PieceJointe(lien= myfile)
+                     pj.save()
+                     employe=Employe.objects.all()
+                     for emp in employe: 
+                        if (emp.compte==request.user):
+                           this_emp=emp
+                 
+                     fiche=Fiche_evaluation(date_eval=date_eval,fichier=pj,doctorant=doctorant)
+                     fiche.save()
+                     fiche.jury.add(this_emp)
+                     fiche.save()
 
+                     return render(request, 'gestion_FD/fiches_evaluation_employee.html', {
+                         'uploaded_file_url': "succés ",
+                         'jury': jury,
+                        'mydocs': mydocs,
+                        'doctorants':mydocs
+                        })
+       else : 
+          return render(request,'gestion_FD/fiches_evaluation_employee.html',context) 
+              
+         
 def valider_eval(request):
+    
    employe=Employe.objects.all()
    cs=False
    for emp in employe: 
@@ -164,4 +171,21 @@ def valider_eval(request):
          'new': fiches_nouvelles,
          'archive': archive
          }
-   return render(request,'gestion_FD/valider_evaluation.html',context)   
+   if request.method == 'POST':
+          idf=request.POST['id_fiche']
+          if request.POST.get('accept'):
+                 Fiche_evaluation.objects.filter(id=idf).update(valide=True)
+          else :
+                 Fiche_evaluation.objects.filter(id=idf).update(valide=False)
+          context2={
+             'cs': cs,
+             'new': Fiche_evaluation.objects.filter(valide__isnull=True),
+             'archive' : Fiche_evaluation.objects.filter(valide__isnull=False)
+          }
+          return render(request,'gestion_FD/valider_evaluation.html', context2 )   
+   else :
+          return render(request,'gestion_FD/valider_evaluation.html',context)
+          
+   
+           
+      
