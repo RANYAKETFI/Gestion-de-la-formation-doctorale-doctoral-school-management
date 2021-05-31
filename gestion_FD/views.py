@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import  User,auth
 from .forms import LoginForm
-from datetime import datetime
+from datetime import datetime,date
 
 def home(request):
    doctorants=Doctorant.objects.all()
@@ -16,32 +16,45 @@ def home(request):
     }
    return render(request,'gestion_FD/home.html',context)
 def doctorant(request):
-   return render(request,'gestion_FD/index_doctorant.html')
+   all_events = Presentation.objects.all()
+   context = {
+        "events":all_events,
+        "today":date.today(),
+    }
+   return render(request,'gestion_FD/index_doctorant.html',context)
 def employee(request):
  
    return render(request,'gestion_FD/index_employee.html')
 def dpgr(request):
-    
-    return render(request,'gestion_FD/index_dpgr.html')   
+    all_events = Presentation.objects.all()
+    etats=Etat_avancement.objects.all()
+    context = {
+        "events":all_events,
+        "today":date.today(),
+        "etats":etats,
+    }
+    return render(request,'gestion_FD/index_dpgr.html',context)   
 def planifier_pres(request):
    titre=""
    doctorants=Doctorant.objects.all()
    employes=Employe.objects.all()
-
+   a=date.today()
+   
    if request.method == 'POST' :
      titre=request.POST['titre']
-     date=request.POST['date']
+     date_pres=request.POST['date']
      heured=request.POST['heured']
      heuref=request.POST['heuref']
      doc=request.POST['doctorant']
      jury=request.POST.getlist('jury')
+     docto=Doctorant.objects.all()[0]
      for d in doctorants:
         if d.id==doc:
          docto=d
-         break
+         
      
      i=0
-     presentation=Presentation(date_pres=date,heure_debut=heured,heure_fin=heuref,doctorant=d)
+     presentation=Presentation(date_pres=date_pres,heure_debut=heured,heure_fin=heuref,doctorant=docto)
      presentation.save()
      for j in jury:
           for e in employes : 
@@ -49,9 +62,9 @@ def planifier_pres(request):
                 presentation.jury.add(e)
           i=i+1
      presentation.save()      
-     return render(request,'gestion_FD/presentations.html',{'doctorants':doctorants,'employes':employes,'titre':'Présentation programmée avec succés'})
+     return redirect("/dpgr")
     
-   return render(request,'gestion_FD/presentations.html',{'doctorants':doctorants,'employes':employes,'titre':titre})    
+   return render(request,'gestion_FD/presentations.html',{'doctorants':doctorants,'employes':employes,'titre':titre, "today":a,})    
 def archive(request):
    doctorants=Doctorant.objects.all()
 

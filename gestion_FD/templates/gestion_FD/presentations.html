@@ -20,13 +20,13 @@
           <div class="form-group">
             <label class="control-label col-md-3"><b>Date : </b></label>
             <div class="col-md-3 col-xs-11">
-              <div data-date-viewmode="years" data-date-format="yyyy-mm-dd" data-date="2021-01-01" class="input-append date dpYears" required>
-                <input type="text" readonly="" name="date" value="2021-01-01" size="16" class="form-control">
+              <div data-date-viewmode="years" min="{{today}}" data-date-format="yyyy-mm-dd" data-date="2021-01-01" class="input-append date dpYears" required>
+                <input type="date" readonly="" min="{{today}}" name="date" value="2021-01-01" size="16" class="form-control">
                 <span class="input-group-btn add-on">
                   <button class="btn btn-theme" type="button"><i class="fa fa-calendar"></i></button>
                   </span>
               </div>
-              <span class="help-block">Selectionner une  date</span>
+              <span class="help-block">Selectionner une  date </span>
             </div>
           </div>
           <div class="form-group">

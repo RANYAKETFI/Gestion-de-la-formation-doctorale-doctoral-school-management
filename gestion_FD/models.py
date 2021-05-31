@@ -80,7 +80,6 @@ class Fiche_evaluation(models.Model):
     jury=models.ManyToManyField(Employe)
     valide=models.BooleanField(null=True)
     doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)
-    Presentation=models.ForeignKey(Presentation,on_delete=models.CASCADE,default=1)
 
 class Reunion(models.Model):
     date_reun=models.DateField()
