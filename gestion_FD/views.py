@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Doctorant, Fiche_evaluation, Presentation,User,Employe,Etat_avancement,PieceJointe
+from .models import Doctorant, Eval_module, Fiche_evaluation, Presentation,User,Employe,Etat_avancement,PieceJointe, Module
 from django.contrib import messages
 from django.template import RequestContext
 from django.conf import settings
@@ -8,6 +8,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import  User,auth
 from .forms import LoginForm
 from datetime import datetime
+import pandas as pd
 
 def home(request):
    doctorants=Doctorant.objects.all()
@@ -186,6 +187,42 @@ def valider_eval(request):
    else :
           return render(request,'gestion_FD/valider_evaluation.html',context)
           
-   
+def notes_prof(request):
+ modules=Module.objects.all()
+ context={'modules': modules}
+ if request.method == 'POST' :
+        myfile = request.FILES['notes']
+        date_eval=request.POST['Date']
+        id_module=request.POST['module']
+        pj=PieceJointe(lien= myfile)
+        pj.save()
+        url=pj.lien.url
+        if url.lower().endswith('.xlsx') :
+               notes=pd.read_excel(myfile)
+               mod=Module.objects.filter(id=id_module).first()
+               for i in range(0,len(notes)):
+                      matricule=notes.at[i,'matricule']
+                      note=notes.at[i,'note']
+                      doc=Doctorant.objects.filter(matricule=matricule).first()
+                      evaluation=Eval_module(Note=note,date_eval=date_eval,etudiant=doc,module=mod)
+                      evaluation.save()
+               format='Notes importées avec succés'        
+        else :
+               format='Format erroné, vous devez importer un fichier excel (.xlsx )'
+        return render(request, 'gestion_FD/notes_prof.html', {
+                         'uploaded_file_url': format,
+                         'modules' : modules
+                        })
+        
+ else:     
+   return render(request,'gestion_FD/notes_prof.html',context)
            
-      
+def notes_doc(request):
+   doctorants=Doctorant.objects.all()
+   for doc in doctorants:
+          if (doc.compte==request.user) :
+                 this_doc=doc
+                 break
+   notes=Eval_module.objects.filter(etudiant=this_doc)
+   context={'notes':notes}          
+   return  render(request,'gestion_FD/notes_doctorant.html',context) 

@@ -88,18 +88,21 @@ class Reunion(models.Model):
     descriptif=models.TextField()  
     doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)  
     dt=models.ForeignKey(Employe,on_delete=models.CASCADE,default=1) 
-class Eval_module(models.Model):
-    Note=models.IntegerField(default=0)
-    date_eval=models.DateField(default=datetime.now())
-    etudiant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)
-   #piece=models.ForeignKey(PieceJointe,on_delete=models.CASCADE,default=1)
+
+  
 class Module(models.Model):
     nom=models.CharField(max_length=50)
     prof=models.ForeignKey(Employe,on_delete=models.CASCADE,default=1)
     etudiants=models.ManyToManyField(Doctorant)
     credit=models.IntegerField(default=0)
-    evaluation=models.ManyToManyField(Eval_module)
-
+    
+class Eval_module(models.Model):
+    Note=models.IntegerField(default=0)
+    date_eval=models.DateField(default=datetime.now())
+    etudiant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)
+    module=models.ForeignKey(Module,on_delete=models.CASCADE,default=1)
+     #piece=models.ForeignKey(PieceJointe,on_delete=models.CASCADE,default=1)
+    
 class PV(models.Model):
     date_pv=models.DateField(default=datetime.now())
     redacteur=models.ForeignKey(Employe,on_delete=models.CASCADE,default=1)    

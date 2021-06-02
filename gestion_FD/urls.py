@@ -20,6 +20,8 @@ urlpatterns = [
         
         path('employee/evaluation_jury', views.evaluation_jury,name="evaluation_jury"),
         path('employee/valider_evaluation', views.valider_eval,name="valider_evaluation"),
+        path('employee/notes_prof', views.notes_prof,name="notes_prof"),
+        path('doctorant/notes', views.notes_doc,name="notes_doc"),
 
 ]
 if settings.DEBUG: 
