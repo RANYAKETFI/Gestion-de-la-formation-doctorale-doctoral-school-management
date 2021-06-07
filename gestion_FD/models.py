@@ -101,7 +101,8 @@ class Eval_module(models.Model):
     date_eval=models.DateField(default=datetime.now())
     etudiant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)
     module=models.ForeignKey(Module,on_delete=models.CASCADE,default=1)
-     #piece=models.ForeignKey(PieceJointe,on_delete=models.CASCADE,default=1)
+    appreciation=models.TextField(default='')  
+    type=models.TextField(default='')  
     
 class PV(models.Model):
     date_pv=models.DateField(default=datetime.now())

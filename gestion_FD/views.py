@@ -188,31 +188,53 @@ def valider_eval(request):
           return render(request,'gestion_FD/valider_evaluation.html',context)
           
 def notes_prof(request):
- modules=Module.objects.all()
- context={'modules': modules}
+ employe=Employe.objects.all()
+ for emp in employe: 
+          if (emp.compte==request.user):
+                 this_emp=emp
+ modules=Module.objects.filter(prof=this_emp)
+ mydocs=[]
+ for m in modules:
+        docs=m.etudiants.all()
+        for d in docs:
+               mydocs.append(d)
+ mydocs= list(dict.fromkeys(mydocs))
+ evals=Eval_module.objects.filter(module__in=modules,etudiant__in=mydocs).order_by('module')
+ 
+ context={'modules': modules, 'evals':evals}
  if request.method == 'POST' :
-        myfile = request.FILES['notes']
-        date_eval=request.POST['Date']
-        id_module=request.POST['module']
-        pj=PieceJointe(lien= myfile)
-        pj.save()
-        url=pj.lien.url
-        if url.lower().endswith('.xlsx') :
-               notes=pd.read_excel(myfile)
-               mod=Module.objects.filter(id=id_module).first()
-               for i in range(0,len(notes)):
-                      matricule=notes.at[i,'matricule']
-                      note=notes.at[i,'note']
-                      doc=Doctorant.objects.filter(matricule=matricule).first()
-                      evaluation=Eval_module(Note=note,date_eval=date_eval,etudiant=doc,module=mod)
-                      evaluation.save()
-               format='Notes importées avec succés'        
-        else :
-               format='Format erroné, vous devez importer un fichier excel (.xlsx )'
-        return render(request, 'gestion_FD/notes_prof.html', {
-                         'uploaded_file_url': format,
-                         'modules' : modules
-                        })
+        if request.POST.get('modif') :
+               id_eval=request.POST['id_eval']
+               modif=request.POST['modif']
+               Eval_module.objects.filter(id=id_eval).update(Note=modif)
+               evals2=Eval_module.objects.filter(module__in=modules,etudiant__in=mydocs).order_by('module')
+               return render(request,'gestion_FD/notes_prof.html',{'modules':modules,'evals': evals2})
+        else:
+         myfile = request.FILES['notes']
+         date_eval=request.POST['Date']
+         id_module=request.POST['module']
+         type=request.POST['type']
+         pj=PieceJointe(lien= myfile)
+         pj.save()
+         url=pj.lien.url
+         if url.lower().endswith('.xlsx') :
+                  notes=pd.read_excel(myfile)
+                  mod=Module.objects.filter(id=id_module).first()
+                  for i in range(0,len(notes)):
+                        matricule=notes.at[i,'matricule']
+                        note=notes.at[i,'note']
+                        app=notes.at[i,'appreciation']
+                        doc=Doctorant.objects.filter(matricule=matricule).first()
+                        evaluation=Eval_module(Note=note,date_eval=date_eval,etudiant=doc,module=mod,appreciation=app,type=type)
+                        evaluation.save()
+                  format='Notes importées avec succés'        
+         else :
+                  format='Format erroné, vous devez importer un fichier excel (.xlsx )'
+         return render(request, 'gestion_FD/notes_prof.html', {
+                           'uploaded_file_url': format,
+                           'modules' : modules,
+                           'evals' : evals
+                           })
         
  else:     
    return render(request,'gestion_FD/notes_prof.html',context)

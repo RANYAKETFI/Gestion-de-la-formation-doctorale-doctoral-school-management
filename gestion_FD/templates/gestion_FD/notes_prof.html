@@ -31,6 +31,16 @@
                   </select>
                 </div>
                 </div>
+
+                 <div class="form-group">
+                  <label class="sr-only" for="exampleInputPassword2">Type</label>
+                   <div class="col-md-3 col-xs-11">
+                    <input class="form-control" type="text" name="type" placeholder="Type d'évaluation" required>
+
+                   </div>
+                 
+                </div>
+                
                 <div class="form-group">
                   <label class="sr-only" for="exampleInputPassword2">Date</label>
                    <div class="col-md-3 col-xs-11">
@@ -67,13 +77,54 @@
          <br>
             <div class="content-panel">
               <div class="panel-body">
-                <h2>Remarque:</h2>
-                <h3>
-                  <b> Vous devez importer un fichier excel suivant exactement le modèle suivant : <a href="https://drive.google.com/file/d/1vKnOJk5WJ9hfTNlons4Q00s5gF-Agjo9/view?usp=sharing"> Modèle </a> </b>
-                </h3>
+                
+                <p>
+                  <b>Remarque : Vous devez importer un fichier excel suivant exactement le modèle suivant : <a href="https://drive.google.com/file/d/1vKnOJk5WJ9hfTNlons4Q00s5gF-Agjo9/view?usp=sharing"> Modèle </a> </b>
+                </p>
                
               </div>
             </div>
+          <!-- Begin table-->
+          <br>
+           <h3><i class="fa fa-angle-right"></i> Notes de mes doctorants</h3>
+        <div class="row mb">
+          <!-- page start-->
+          <div class="content-panel">
+            <div class="adv-table">
+              <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Module</th>
+                    <th class="hidden-phone">Doctorant</th>
+                    <th class="hidden-phone">Note</th>
+                    <th class="hidden-phone">Modifier</th>
+                  </tr>
+                </thead>
+                <tbody>
+               {% for n in evals %}
+                  <tr>
+                    <td>{{   forloop.counter  }}</td>
+                    <td>{{ n.module.nom }}</td>
+                    <td>{{n.etudiant.nom}} {{n.etudiant.prenom}}</td>
+                    <td>{{ n.Note }}</td>
+                     <td>
+                      <form  role="form" id="notes"  method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                      <input type="hidden" name="id_eval" value="{{n.id}}"> 
+                      <input type="number" name="modif" required>
+                      <button class="btn btn-primary btn-xs" type="submit"><i class="fa fa-pencil"></i></button>
+                     
+                      </form>
+                  </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          </div>
+            <!--End table-->
        
       </section>
     </section>
@@ -100,6 +151,8 @@
       </div>
     </footer>
     <!--footer end-->
-  </section>
+  </section> 
+
+ 
 
 {% endblock content%}
