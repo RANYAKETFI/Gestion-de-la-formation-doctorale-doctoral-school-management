@@ -119,7 +119,7 @@ def evaluation_jury(request):
               if request.POST.get('mydocs'):
                      id1=request.POST['mydocs']
                      d=Doctorant.objects.filter(id=id1).first()
-                     evals=Fiche_evaluation.objects.filter(doctorant=d)
+                     evals=Fiche_evaluation.objects.filter(doctorant=d).order_by('-date_eval')
                      return render(request, 'gestion_FD/fiches_evaluation_employee.html', {
                         'fiches': evals,
                         'jury': jury,
@@ -165,8 +165,8 @@ def valider_eval(request):
                  for role in roles:
                         if (role.nom=='CS'):
                                 cs=True
-   fiches_nouvelles=Fiche_evaluation.objects.filter(valide__isnull=True)
-   archive=Fiche_evaluation.objects.filter(valide__isnull=False)
+   fiches_nouvelles=Fiche_evaluation.objects.filter(valide__isnull=True).order_by('-date_eval')
+   archive=Fiche_evaluation.objects.filter(valide__isnull=False).order_by('-date_eval')
    context={
         'cs':cs,
          'new': fiches_nouvelles,
@@ -180,8 +180,8 @@ def valider_eval(request):
                  Fiche_evaluation.objects.filter(id=idf).update(valide=False)
           context2={
              'cs': cs,
-             'new': Fiche_evaluation.objects.filter(valide__isnull=True),
-             'archive' : Fiche_evaluation.objects.filter(valide__isnull=False)
+             'new': Fiche_evaluation.objects.filter(valide__isnull=True).order_by('-date_eval'),
+             'archive' : Fiche_evaluation.objects.filter(valide__isnull=False).order_by('-date_eval')
           }
           return render(request,'gestion_FD/valider_evaluation.html', context2 )   
    else :
@@ -245,6 +245,6 @@ def notes_doc(request):
           if (doc.compte==request.user) :
                  this_doc=doc
                  break
-   notes=Eval_module.objects.filter(etudiant=this_doc)
+   notes=Eval_module.objects.filter(etudiant=this_doc).order_by('-date_eval')
    context={'notes':notes}          
    return  render(request,'gestion_FD/notes_doctorant.html',context) 
