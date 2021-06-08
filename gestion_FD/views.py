@@ -219,15 +219,22 @@ def notes_prof(request):
          url=pj.lien.url
          if url.lower().endswith('.xlsx') :
                   notes=pd.read_excel(myfile)
-                  mod=Module.objects.filter(id=id_module).first()
-                  for i in range(0,len(notes)):
-                        matricule=notes.at[i,'matricule']
-                        note=notes.at[i,'note']
-                        app=notes.at[i,'appreciation']
-                        doc=Doctorant.objects.filter(matricule=matricule).first()
-                        evaluation=Eval_module(Note=note,date_eval=date_eval,etudiant=doc,module=mod,appreciation=app,type=type)
-                        evaluation.save()
-                  format='Notes importées avec succés'        
+                  l1=list(notes.columns)
+                  l1.sort()
+                  l2=['appreciation', 'matricule', 'nom', 'note', 'prenom']
+                  l2.sort()
+                  if (l1==l2):
+                     mod=Module.objects.filter(id=id_module).first()
+                     for i in range(0,len(notes)):
+                           matricule=notes.at[i,'matricule']
+                           note=notes.at[i,'note']
+                           app=notes.at[i,'appreciation']
+                           doc=Doctorant.objects.filter(matricule=matricule).first()
+                           evaluation=Eval_module(Note=note,date_eval=date_eval,etudiant=doc,module=mod,appreciation=app,type=type)
+                           evaluation.save()
+                     format='Notes importées avec succés'        
+                  else:
+                         format='Le fichier excel importé ne respecte pas le modèle, veuillez suivre le modèle fourni ci-dessous'
          else :
                   format='Format erroné, vous devez importer un fichier excel (.xlsx )'
          return render(request, 'gestion_FD/notes_prof.html', {

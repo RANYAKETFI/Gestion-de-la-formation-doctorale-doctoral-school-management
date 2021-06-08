@@ -151,6 +151,7 @@
                     <th><i class="fa fa-graduation-cap"></i> Doctorant</th>
                     <th class="hidden-phone"><i class="fa fa-calendar-o"></i> Date</th>
                     <th><i class="fa fa-paperclip"></i> Pièce jointe</th>
+                    <th>Etat</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -161,6 +162,11 @@
                     <td>{{f.doctorant.nom}} {{f.doctorant.prenom}}</td>
                     <td>{{ f.date_eval }}</td>
                     <td><a href="{{ f.fichier.lien.url}}">Fiche</a></td>
+                     {% if f.valide is True %}
+                    <td><span class="badge bg-success">Acceptée</span></td>
+                    {% else %}
+                    <td><span class="badge bg-important">Refusée</span></td>
+                    {% endif %}
                   </tr>
                 {% endfor %}
                 {% endif %}
