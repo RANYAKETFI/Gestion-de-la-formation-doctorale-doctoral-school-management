@@ -59,7 +59,6 @@
               <select required class="form-control selectpicker"  name="doctorant" id="doctorant">
                 {% for d in doctorants %}
                 <option class="form-control option" name="doctorant"  value="{{d.id}}">{{d.matricule}} -- {{d.nom}} {{d.prenom}} </option>
-                <b>hello</b>
                 
 {%endfor%}
               </select>

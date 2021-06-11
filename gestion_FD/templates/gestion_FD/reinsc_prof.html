@@ -1,0 +1,96 @@
+
+{% extends "gestion_FD/base_employe.html "%}
+{% block content %}
+{% load static %}
+<section id="main-content">
+  <section class="wrapper">
+    <h3><i class="fa fa-angle-right"></i>Doctorants :</h3>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="content-panel">
+          <h4><i class="fa fa-angle-right"></i> Approuver la réinscription </h4>
+          <hr>
+          <table class="table">
+            {{docs}}
+            {{r}}
+            <thead>
+              <tr>
+                <th>Numéro </th>
+                <th>Nom et prénom </th>
+                <th> Thèse </th>
+                <th> Déclaration </th>
+                <th> Avis </th>
+
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for d in docs %}
+              {% if d.rein_envo%}
+              {% if not d.reinscrit %}
+              {% if r %}
+              <tr> 
+                <td>{{forloop.counter}}</td>
+                <td>{{d.nom }} {{d.prenom}}</td>
+                <td> <b> Vous avez validé la réinscription avec succés </b> </td>
+              </tr>
+              {% else %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{d.nom }} {{d.prenom}}</td>
+                <td>
+                  {% for t in d.choix.all %}
+                   {% if t.prise %}
+                   {{t.intitule}}
+                   {% endif%}
+                   {%endfor%}
+                </td>
+                  <form  role="form" id="validation"  method="POST" enctype="multipart/form-data">
+                    <td>
+
+                    {% csrf_token %}
+                    <select required class="form-control selectpicker"  name="d" id="doctorant">
+                      <option class="form-control option" name="d"  >
+
+                      le doctorant accuse un retard important dans ses travaux 		                 
+                 
+                    </option >    
+                    <option class="form-control option" name="d"  >
+
+                      le doctorant accuse un retard peu important dans ses travaux 	
+                 
+                    </option > 
+                    
+
+                    <option class="form-check-input" type="checkbox"   name="d" id="c3" >
+                      les travaux du doctorant avancent conformément à l’échéancier établi
+                    </option>
+                    </select>
+                  </div>
+                </td>
+                <td>    
+                  <input hidden type="text" value="{{d.pk}}" name="doct">
+                  <button class="btn btn-success btn-xs" name="valide" type="submit" value="accepted"><i class="fa fa-check"></i> favorable </button>
+                  <button class="btn btn-danger btn-xs" name="valide" type="submit" value="refused"><i class="fa fa-trash-o "></i> défavorable </button>
+
+                 </td>
+                </form>
+              </tr>
+              {% endif%}
+
+              {% endif%}
+              {% endif%}
+
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- /col-md-12 -->
+     
+<!--footer end-->
+</section>
+    <!-- /MAIN CONTENT -->
+    <!--main content end-->
+    <!--footer start--> 
+     {% endblock content%}

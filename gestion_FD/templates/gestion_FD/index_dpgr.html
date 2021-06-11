@@ -5,12 +5,55 @@
     <section id="main-content">
       <section class="wrapper">
         <!-- page start-->
+        <br>
+        <br>
+       <center> <h3><b>Planning des présentations : </b> </h3></center>
+        <center> 
+          <div class="row mt">
+            <aside class="col-lg-3 mt">
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+              <br>
+            </br>
+            </br>
+          </br>
+        </br>
+
+            <a href="/dpgr/planifier_pres">
+          
+              <button class="btn btn-round btn-success" href="/doctorant/deposer_etat"  style="background-color:#128880;"> 
+                Planifier une présentation
+              </button>
+            </a>
+</aside>
+          <aside class="col-lg-9 mt">
+          <section class="panel">
+            <div class="panel-body">
+          <div id="calendar"></div>
+            </div>
+          </div>
+          </section>
+        
+        </aside></center>    
+        <center> <h3><b>Présentations à venir  : </b> </h3></center>
+        <center>
+
         <div class="row mt">
           <aside class="col-lg-12 mt">
+            <center>
+
             <div class="row">
+              <center>
+
               <div class="col-md-12">
-                <div class="content-panel">
-                  <h3><i class="fa fa-angle-right"></i> <b>Présentations à venir : </b>  </h3>
+                <center>
+
+                <div class="content-panel" >
                   <hr>
             <table class="table">
               <thead>
@@ -25,7 +68,7 @@
                 </tr>
               </thead>
               <tbody>
-                {%  for e in events  %}
+                {%  for e in pres  %}
                 {% now "Y-m-d" as todays_date %}
                 {% if today < e.date_pres  %}
                 <tr>
@@ -46,57 +89,129 @@
                 {% endfor%}
               </tbody>
             </table>
+
             <center>
-            <button class="btn btn-round btn-success" href="/planifier_pres"  style="background-color:#128880;">planifier présentation </button>
-          </center>  </div>
+              <a href="/dpgr/planifier_pres">
+          
+                <button class="btn btn-round btn-success" href="/doctorant/deposer_etat"  style="background-color:#128880;"> 
+                  Planifier une présentation
+                </button>
+              </a>          </center>
+
+          </div>
+        </center>
+
             </div>
+          </center>
+
             </div>
+          </center>
+
 </aside>
 </div>
+</aside></center>  
+<br>  
+<center> <h3><b>Etats d'avancements : </b> </h3></center>
+<center>
+
+<div class="row mt">
+  <aside class="col-lg-12 mt">
+    <center>
+
+    <div class="row">
+      <center>
+
+      <div class="col-md-12">
+        <center>
+
+        <div class="content-panel" >
+          <hr>
+    <table class="table">
+      <thead>
+        <tr>
+          <th><h4><b> Numéro </b> </h4></th>
+          <th><h4><b>Date de dépot  </b></h4> </th>
+          <th><h4> <b> doctorant  </b> </h4></th>
+          <th><h4> <b> Lien  </b> </h4></th>
+
+
+        </tr>
+      </thead>
+      <tbody>
+        {%  for e in etats  %}
+        
+        {% now "Y-m-d" as todays_date %}
+        {% if this_year < e.date_etat_avancement  %}
+        <tr>
+          
+          <td>{{   forloop.counter  }}</td>
+          <td>{{ e.date_etat_avancement }}</td>
+          <td>{{e.doctorant.nom}}  </td>
+          
+          <td><a href="{{e.etat.lien}}"> Lien </a>
+          </td> 
+        </tr>
+        {%endif%}
+        {% endfor%}
+      </tbody>
+    </table>
+
+    
+
+  </div>
+</center>
+
+    </div>
+  </center>
+
+    </div>
+  </center>
+
+</aside>
+</center>
+
 <br>
 <br>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="content-panel">
-                  <h3><i class="fa fa-angle-right"></i> <b>Etats d'avancements </b>  </h3>
-                  <hr>
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th><h4><b> Numéro </b> </h4></th>
-                        <th><h4><b>Date de dépot </b></h4> </th>
-                        <th><h4> <b> Fichier </b> </h4></th>
-                        <th><h4> <b> doctorant </b> </h4></th>
-    
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {%  for e in etats  %}
-    
-                      <tr>
-                        <td>{{   forloop.counter  }}</td>
-                        <td>{{ e.date_etat_avancement }}</td>
-                        <td> <a href="{{ e.etat.lien.url }}"> {{e.etat.lien}}</a></td>
-                        <td> {{e.doctorant.nom }} {{e.doctorant.prenom }}</td>
-    
-                      </tr>
-    
-                      {% endfor%}
-                    </tbody>
-                  </table>
-                </div>
-             
-            </aside>
         </div>
         <!-- page end-->
       </section>
       <!-- /wrapper -->
-    </section>
-    <script src="{%static "lib/jquery/jquery.min.js" %}"></script>
-    <script src="{%static "lib/bootstrap/js/bootstrap.min.js" %}"></script>
-    <script class="include" type="text/javascript" src="{%static "lib/jquery.dcjqaccordion.2.7.js" %}"></script>
-    <script src="{%static "lib/jquery.scrollTo.min.js" %}"></script>
-    <script src="{%static "lib/jquery.nicescroll.js" %}" type="text/javascript"></script>
-    <!--common script for all pages-->
-    <script src="{%static "lib/common-scripts.js" %}"></script>
+      <script src="{% static "lib/jquery/jquery.min.js" %}" ></script>
+      <script src="{% static "lib/jquery-ui-1.9.2.custom.min.js" %}"></script>
+      <script src="{% static "lib/fullcalendar/fullcalendar.min.js" %}"></script>
+      <script src="{% static "lib/bootstrap/js/bootstrap.min.js" %}"></script>
+      <script class="include" type="text/javascript" src="{% static "lib/jquery.dcjqaccordion.2.7.js" %}"></script>
+      <script src="{% static "lib/jquery.scrollTo.min.js" %}"
+      
+      
+      
+      
+      
+      
+      
+      ></script>
+      <script src="{% static "lib/jquery.nicescroll.js" %}" type="text/javascript"></script>
+      <!--common script for all pages
+      <script src="{% static "lib/common-scripts.js" %}"></script> -->
+      <!--script for this page 
+      <script src="{% static "lib/calendar-conf-events.js" %}"></script> -->
+      <script> 
+      $(document).ready(function() {
+      
+      $('#calendar').fullCalendar({
+          editable: true,
+          eventLimit: true, // allow "more" link when too many events
+          events: [
+                      {% for i in events %}
+                      {
+                          title: "{{'Evaluation :'  }} {{i.doctorant.nom }}",
+                          start: new Date("{{ i.date_pres }}")
+      
+                      },
+                      {% endfor %}
+          ]
+      });
+      
+      });
+      </script>
   {% endblock content%}

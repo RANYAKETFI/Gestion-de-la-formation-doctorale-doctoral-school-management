@@ -31,11 +31,14 @@
   <link rel="stylesheet" href="{% static "lib/file-uploader/css/jquery.fileupload.css" %}">
   <link rel="stylesheet" href="{% static "lib/file-uploader/css/jquery.fileupload-ui.css" %}">
   <!-- CSS adjustments for browsers with JavaScript disabled -->
-  
-  <noscript>
-     
-    </noscript>
-
+   <!-- blueimp Gallery styles -->
+   <link rel="stylesheet" href="{% static "http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css" %}">
+   <noscript>
+    <link rel="stylesheet" href="{% static "lib/file-uploader/css/jquery.fileupload-noscript.css" %}">
+  </noscript>
+<noscript>
+    <link rel="stylesheet" href="{% static "lib/file-uploader/css/jquery.fileupload-ui-noscript.css" %}">
+  </noscript>
   <!-- =======================================================
     Template Name: Dashio
     Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -77,7 +80,7 @@
           <p class="centered"><a href="profile.html"><img src="{% static "img/ui-sam.jpg" %}" class="img-circle" width="80"></a></p>
           <h5 class="centered">Doctorant</h5>
           <li class="mt">
-            <a class="active" href="index_doctorant.html">
+            <a class="active" href="/doctorant">
               <i class="fa fa-calendar"></i>
               <span>Planning</span>
               </a>
@@ -89,7 +92,7 @@
               </a>
           </li>
             <li>
-            <a href="reinscription_doc.html">
+            <a href="/doctorant/reinscription">
               <i class="fa fa-folder-open"></i>
               <span>Réinscription </span>
               </a>

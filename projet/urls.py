@@ -9,6 +9,7 @@ urlpatterns = [
     path('gestion_FD/', include('gestion_FD.urls')),
     path('login/', include('gestion_FD.urls')),
     path('', include('gestion_FD.urls')),
+    path('cal', include('gestion_FD.urls')),
 
 
 ]
