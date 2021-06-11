@@ -125,9 +125,14 @@ def reins_cs(request):
       doct=request.POST['doct']
       if valide=="accepted":
          reins.valide_cs=True
-      
+         
+         do=Doctorant.objects.all().get(pk=doct)
+         do.reinscrit=True
+         do.annee_etude=do.annee_etude+1
+         do.save()
       else:
          reins.valide_cs=False
+
       reins.save() 
       done=True
       return render(request,'gestion_FD/reinscription_cs.html',{
