@@ -1,6 +1,5 @@
 
 from django.urls import path
-
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -14,9 +13,11 @@ urlpatterns = [
         path('dpgr', views.dpgr,name="dpgr"),
         path('dpgr/planifier_pres', views.planifier_pres,name="planifier_pres"),
         path('employee/deposer_these_cfd', views.deposer_these_cfd,name="deposer_these_cfd"),
+        path('employee/liste_theses', views.lister_theses,name="liste_theses"),
         path('employee', views.employee,name="emplpoyee"),
         path('doctorant', views.doctorant,name="doctorant"),
         path('logout', views.logout,name="logout"),
+        path('try_t',views.try_t,name="try_t")
 
 ]
 if settings.DEBUG: 

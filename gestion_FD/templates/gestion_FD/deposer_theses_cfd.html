@@ -52,6 +52,11 @@
                     <input type="text" class="form-control" placeholder="Introduire le resumé" id="tresume" name="tresume" required>
                   </div>
                 </div>
+                <div class="form-group remove"> 
+                  <div class="col-lg-offset-2 col-lg-10">
+                     <button class="btn btn-danger" id="remove" name ="remove">Supprimer</button>
+                  </div>
+              </div>
               </div>
 
             </div>
@@ -73,6 +78,10 @@
         }else{
             alert('Maximum '+maxGroup+' groups are allowed.');
         }
+    });
+     //remove fields group
+     $("body").on("click",".remove",function(){ 
+        $(this).parents(".fieldGroup").remove();
     });
     
 });

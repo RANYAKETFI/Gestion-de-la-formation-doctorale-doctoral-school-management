@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Doctorant,User,Employe,Etat_avancement,PieceJointe,These
+from .models import Doctorant,User,Employe,Etat_avancement,PieceJointe,These,Role
 from django.contrib import messages
 from django.template import RequestContext, context
 from django.conf import settings
@@ -65,6 +65,51 @@ def deposer_these_cfd(request):
                these.save()
       
    return render(request,'gestion_FD/deposer_theses_cfd.html')
+
+def lister_theses(request):
+   employe=Employe.objects.all()
+   doctorants=Doctorant.objects.all()
+   doc_name="ll"
+   cfd=False
+  
+   for emp in employe: 
+          if (emp.compte==request.user):
+                 this_emp=emp
+                 roles=this_emp.role.all()
+                 for role in roles:
+                        if (role.nom=='CFD'):
+                                cfd=True
+
+   # theses_prise = These.objects.filter(prise=True)
+   theses = []
+   for doc in doctorants:
+      for t in doc.choix.all(): 
+        if (t.prise):
+           
+           doc_name=doc.nom
+           theses.append(t)
+
+   context ={
+      'CFD':cfd,
+      'theses':theses,
+      'nom_doc':doc_name,
+   }
+   if request.method == 'POST':
+      id_these = request.POST['id_th']
+      if request.POST.get('accept'):
+         These.objects.filter(id=id_these).update(valide_cfd=True)
+      else :
+         These.objects.filter(id=id_these).update(valide_cfd=False)
+      context2 ={
+         'CFD':cfd,
+         'theses':theses,
+         'nom_doc':doc_name,
+      }
+      return render(request,'gestion_Fd/liste_theses.html',context2)
+   else:
+      return render(request,'gestion_Fd/liste_theses.html',context)
+      
+
    
 def login(request):
      
@@ -95,7 +140,39 @@ def login(request):
      else :
         return render(request,'gestion_FD/login.html')
 
+def try_t(request):
+   doctorants=Doctorant.objects.all()
+   doc_name=""
+   doc_prenom=""
 
+   theses = []
+   for doc in doctorants:
+      for t in doc.choix.all(): 
+        if (t.prise):
+           
+           doc_name=doc.nom
+           doc_prenom = doc.prenom
+           theses.append(t)
+   context ={
+      'theses':theses,
+      'nom_doc':doc_name,
+      'prenom_doc':doc_prenom,
+   }
+   if request.method == 'POST':
+      id_these = request.POST['id_th']
+      if request.POST.get('accept'):
+         These.objects.filter(id=id_these).update(valide_cfd=True)
+      else :
+         These.objects.filter(id=id_these).update(valide_cfd=False)
+      context2 ={
+         'theses':theses,
+         'nom_doc':doc_name,
+         'prenom_doc':doc_prenom,
+      }
+      return render(request,'gestion_FD/advanced_table.html',context2)
+   else:
+      return render(request,'gestion_FD/advanced_table.html',context)
+   
 
 def logout(request):
    auth.logout(request)
