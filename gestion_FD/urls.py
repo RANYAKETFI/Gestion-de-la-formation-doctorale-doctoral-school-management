@@ -1,5 +1,7 @@
 
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 urlpatterns = [
@@ -7,9 +9,23 @@ urlpatterns = [
         path('', views.login,name="login"),
         path('login', views.login,name="login"),
         path('doctorant/deposer_etat', views.deposer_etat,name="deposer_etat"),
+        path('doctorant/inscription', views.inscription,name="inscription"),
+        path('doctorant/archive', views.archive,name="archive"),
+        path('dpgr', views.dpgr,name="dpgr"),
+        path('dpgr/planifier_pres', views.planifier_pres,name="planifier_pres"),
+        path('dpgr/inscription', views.affecterthses,name="inscription"),
+        path('dpgr/archive/archiveetatAvancement', views.archiveetatAvancement,name="archiveetatAvancement"),
+        path('dpgr/archive/archiveDossierDoctorant', views.archiveDossierDoctorant,name="archiveDossierDoctorant"),
+        path('dpgr/archive/archiveFicheEvalution', views.archiveFicheEvalution,name="archiveFicheEvalution"),
+        path('employee/deposer_these_cfd', views.deposer_these_cfd,name="deposer_these_cfd"),
+
 
         path('employee', views.employee,name="emplpoyee"),
         path('doctorant', views.doctorant,name="doctorant"),
         path('logout', views.logout,name="logout"),
 
+
 ]
+if settings.DEBUG: 
+    urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+    urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

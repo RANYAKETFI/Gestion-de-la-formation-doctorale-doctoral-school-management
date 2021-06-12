@@ -9,12 +9,31 @@ class PieceJointe(models.Model):
      ,('EXCEL','EXCEL'),
      ('IMAGE','IMAGE'),
      ('LIEN','LIEN'))
-    lien=models.BinaryField(null=True)
+    lien=models.FileField(null=True)
     type_piece=models.CharField(max_length=40,choices=TYPES)
 class Dossier_Doctorant(models.Model):
     pieces=models.ManyToManyField(PieceJointe)
-
-
+class Role(models.Model):
+    ROLES=(('CS','CS'),('CFD','CFD'),('JURY','JURY'),('PROF','PROF'),('DT','DT'),('ADPGR','ADPGR'),('DAPGR','DAPGR'))
+    nom=models.CharField(max_length=100,choices=ROLES)
+class Employe(models.Model):
+    SEXES= (('F','F'),('M','M'))
+    LABOS=(('MCS','MCS'),('LCSI','LCSI'))
+    nom =models.CharField(max_length=100)
+    prenom =models.CharField(max_length=100)
+    email=models.EmailField()	
+    date_naissance=models.DateField(default=datetime.now())
+    sexe=models.CharField(max_length=1,choices=SEXES)
+    compte=models.ForeignKey(User,on_delete=models.CASCADE,default=1)
+    nom_lab=models.CharField(max_length=20,choices=LABOS) 
+    role=models.ManyToManyField(Role)
+class These(models.Model):
+    intitule=models.CharField(max_length=100)
+    resume=models.TextField()
+    valide_cfd=models.BooleanField(default=False)
+    prise=models.BooleanField(default=False)
+    dt=models.ManyToManyField(Employe)
+    #doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=None, null=True,blank=True)
 class Doctorant(models.Model):
     SEXES= (('F','F'),('M','M'))
     LABOS=(('MCS','MCS'),('LCSI','LCSI'))
@@ -36,32 +55,10 @@ class Doctorant(models.Model):
     dossier=models.ForeignKey(Dossier_Doctorant,on_delete=models.CASCADE,default=1)
     compte=models.ForeignKey(User,on_delete=models.CASCADE,default=1)
     nom_lab=models.CharField(max_length=20,choices=LABOS) 
-    #choix_theses=models.ManyToManyField(These)
-
-class Role(models.Model):
-    ROLES=(('CS','CS'),('CFD','CFD'),('JURY','JURY'),('PROF','PROF'),('DT','DT'),('ADPGR','ADPGR'),('DAPGR','DAPGR'))
-    nom=models.CharField(max_length=100,choices=ROLES)
-
-
-class Employe(models.Model):
-    SEXES= (('F','F'),('M','M'))
-    LABOS=(('MCS','MCS'),('LCSI','LCSI'))
-    nom =models.CharField(max_length=100)
-    prenom =models.CharField(max_length=100)
-    email=models.EmailField()	
-    date_naissance=models.DateField(default=datetime.now())
-    sexe=models.CharField(max_length=1,choices=SEXES)
-    compte=models.ForeignKey(User,on_delete=models.CASCADE,default=1)
-    nom_lab=models.CharField(max_length=20,choices=LABOS) 
-    role=models.ManyToManyField(Role)    
-class These(models.Model):
-    intitule=models.CharField(max_length=100)
-    resume=models.TextField()
-    valide_cfd=models.BooleanField(default=False)
-    prise=models.BooleanField(default=False)
-    dt=models.ManyToManyField(Employe)
-    doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)
-    date=models.DateField()
+    choix=models.ManyToManyField(These)
+    #choixFinal=models.ForeignKey(These,on_delete=models.CASCADE,default=None, null=True,blank=True)
+    date=models.DateField(default=None, null=True)
+    choixFinal =models.CharField(max_length=100,default='PAS ENCORE')
 class Etat_avancement(models.Model):
     date_etat_avancement=models.DateField() 
     doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE)
@@ -72,9 +69,9 @@ class Fiche_evaluation(models.Model):
     date_eval=models.DateField(default=datetime.now())
     fichier=models.ForeignKey(PieceJointe,on_delete=models.CASCADE)
     jury=models.ManyToManyField(Employe)
-    valide=models.BooleanField(default=False)
+    valide=models.BooleanField(null=True)
     doctorant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)
-    
+
 
 class Reunion(models.Model):
     date_reun=models.DateField()

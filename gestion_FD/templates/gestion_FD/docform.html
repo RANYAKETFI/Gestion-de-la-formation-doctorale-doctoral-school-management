@@ -1,0 +1,111 @@
+{% extends "gestion_FD/base_doctorant.html" %}
+{% block content %}
+  {% load static %} 
+
+
+    <html lang="en">
+    <head>
+      <title>Inscription Doctorant</title>
+        <H2>{{'ketba'}}</H2>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+     
+
+    
+    <section id="main-content">
+    <section class="wrapper site-min-height">
+    <br> 
+    </br>   
+    <div class="row mt">
+    <div class="col-lg-12">
+    <div class="container">
+      <h1><b>Inscription</b></h1>
+      
+      <br></br>
+      <br></br>
+      <form class="form-group form-group-lg"method="POST" enctype="multipart/form-data">{%csrf_token%}
+        <div class="form-group form-group-lg">
+          <label for="Integer"><h2>Matricule:</h2></label>
+          <input type="text" class="form-control" id="matricule" placeholder="Votre matricule" name="matricule">
+        </div>
+        <div class="form-group form-group-lg">
+            <label for="text"><h2>Nom:</h2></label>
+            <input type="text" class="form-control" id="firstname" placeholder="Votre Nom" name="fname">
+          </div>
+          <div class="form-group" >
+            <label for="text"><h2>Prénom:</h2></label>
+            <input type="text" class="form-control" id="Votre Prénom" placeholder="Votre prenom" name="lname">
+          </div>
+        <div class="form-group">
+          <label for="date"><h2>Date de naissance:</h2></label>
+          <input type="date" class="form-control" id="datenaiss" placeholder="Entrez votre date de naissance" name="dnaiss">
+        </div>
+        <div class="form-group">
+          <label for="lieu"><h2>Lieu de naissance:</h2></label>
+          <input type="lieu" class="form-control" id="lieuNaiss" placeholder="Entez votre lieu de naissance" name="lieunaiss">
+        </div>
+        <br></br>
+          <span class="btn btn-success fileinput-button">
+            <i class="glyphicon glyphicon-plus"></i>
+            <span>Joindre votre CV</span>
+          <input type="file" name="cv">
+          </span>
+        </span>
+          <span class="btn btn-success fileinput-button">
+            <i class="glyphicon glyphicon-plus"></i>
+            <span>Joindre votre lettre de motivation</span>
+          <input type="file" name="lettremotiv">
+          </span>
+          <span class="btn btn-success fileinput-button">
+            <i class="glyphicon glyphicon-plus"></i>
+            <span>Joindre votre Photo</span>
+          <input type="file" name="photo">
+          </span>
+          <br></br>
+           {% if uploaded_file_url %}
+           <h2>Fichier chargé avec: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></h2>
+         {% endif %}
+        
+            <div>
+              <br>
+                  </br>
+                <h2>Veuillez selectionner vos choix de thèse</h2>
+                <br>
+              </br> 
+                <h3>Votre premier choix:</h3>
+                <select class="form-control form-control-sm" name='choix1'method="POST">
+                    <option> thèse 1</option>
+                  </select>
+                  <br>
+                </br> 
+                  <h3>Votre deuxième choix:</h3>
+                  <select class="form-control form-control-sm" name='choix2' method="POST">
+                    <option> thèse 2</option>
+                  </select>
+                  <br>
+                </br> 
+                  <h3>Votre troisième choix:</h3>
+                  <select class="form-control form-control-sm" name='choix3'method="POST">
+                    <option> thèse 3</option>
+                  </select>
+                  <br>
+                  </br> 
+            </div>
+            <div class="col-md-8">
+              <br></br>
+             <button type="submit" class="btn btn-primary btn-lg">S'inscrir</button>
+            </div>
+      </form>
+    </div>
+    </div>
+    </div>
+
+    </body>
+  {% endblock content %}
+
