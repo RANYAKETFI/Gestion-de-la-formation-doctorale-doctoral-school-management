@@ -71,7 +71,7 @@
           <p class="centered"><a href="/employee/"><img src="{% static  "img/ui-sam.jpg" %}" class="img-circle" width="60"></a></p>
           <h5 class="centered">Employé</h5>
           <li class="mt">
-            <a  href="index_employee.html">
+            <a  href="/employe">
               <i class="fa fa-calendar"></i>
               <span>Planning</span>
               </a>
@@ -92,9 +92,9 @@
               <span>Réinscription </span>
               </a>
                 <ul class="sub">
-              <li><a href="employee/reinsc_cfd">Validation CFD</a></li>
-              <li><a href="employee/reinsc_cs">Validation CS</a></li>
-              <li><a href="employee/reinsc_prof">Suivi Doctorant</a></li>
+              <li><a href="/employee/reinsc_cfd">Validation CFD</a></li>
+              <li><a href="/employee/reinsc_cs">Validation CS</a></li>
+              <li><a href="/employee/reinsc_prof">Suivi Doctorant</a></li>
 
             </ul>
           </li>
@@ -116,7 +116,7 @@
           </li>
       
             <li>
-            <a href="employee/notes_prof">
+            <a href="/employee/notes_prof">
               <i class="fa fa-table"></i>
               <span>Notes des doctorants</span>
               </a>
@@ -127,9 +127,8 @@
               <span>Evaluation</span>
               </a>
             <ul class="sub">
-              <li><a href="employee/evaluation_jury">Fiches d'évaluations</a></li>
-              <li><a href="employee/valider_evaluation">Valider les évaluations</a></li>
-              <li><a href="pv_employee.html">PVs</a></li>
+              <li><a href="/employee/evaluation_jury">Fiches d'évaluations</a></li>
+              <li><a href="/employee/valider_evaluation">Valider les évaluations</a></li>
               
             </ul>
           </li>
@@ -166,8 +165,8 @@
   <script src="{% static "lib/jquery.nicescroll.js" %}" type="text/javascript"></script>
   <!--common script for all pages-->
   <script src="{% static "lib/common-scripts.js" %}"></script>
-  <!--script for this page-->
-  <script src="{% static "lib/calendar-conf-events.js" %}"></script>
+  <!--script for this page
+  <script src="{% static "lib/calendar-conf-events.js" %}"></script>-->
 
 </body>
 

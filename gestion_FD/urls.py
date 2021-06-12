@@ -21,9 +21,25 @@ urlpatterns = [
         path('employee/reinsc_cfd', views.reins_cfd,name="reinscription"),
         path('employee/reinsc_cs', views.reins_cs,name="reinscription"),
 
+        path('doctorant/inscription', views.inscription,name="inscription"),
+        path('dpgr/inscription', views.affecterthses,name="inscription"),
+        path('dpgr/archive/archiveetatAvancement', views.archiveetatAvancement,name="archiveetatAvancement"),
+        path('dpgr/archive/archiveDossierDoctorant', views.archiveDossierDoctorant,name="archiveDossierDoctorant"),
+        path('dpgr/archive/archiveFicheEvalution', views.archiveFicheEvalution,name="archiveFicheEvalution"),
+             path('dpgr/reinscription_dpgr', views.reins_dpgr,name="archiveFicheEvalution"),
+
+        path('employee/deposer_these_cfd', views.deposer_these_cfd,name="deposer_these_cfd"),
+        path('employee/liste_theses', views.lister_theses,name="liste_theses"),
+
+        path('employee/evaluation_jury', views.evaluation_jury,name="evaluation_jury"),
+        path('employee/valider_evaluation', views.valider_eval,name="valider_evaluation"),
+        path('employee/notes_prof', views.notes_prof,name="notes_prof"),
+        path('doctorant/notes', views.notes_doc,name="notes_doc"),
+
 
 
 ]
 if settings.DEBUG: 
     urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
     urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+  

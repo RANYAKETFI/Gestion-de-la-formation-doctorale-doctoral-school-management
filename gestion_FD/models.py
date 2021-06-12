@@ -79,10 +79,10 @@ class Doctorant(models.Model):
     delibere=models.BooleanField(default=False)
     date_deliberation=models.DateField(default=datetime.now())
     date_reinscription=models.DateField(default=datetime.now())
-    dossier=models.ForeignKey(Dossier_Doctorant,on_delete=models.CASCADE,default=None)
+    dossier=models.ForeignKey(Dossier_Doctorant,on_delete=models.CASCADE,null=True,blank=True)
     compte=models.ForeignKey(User,on_delete=models.CASCADE,default=None)
     nom_lab=models.CharField(max_length=20,choices=LABOS) 
-    choix=models.ManyToManyField(These)
+    choix=models.ManyToManyField(These,null=True,blank=True)
     Bourse=models.ForeignKey(Bourse,on_delete=models.CASCADE,blank=True,null=True)
     reinscription=models.ManyToManyField(Reinscription,null=True,blank=True)
     choixfinal =models.CharField(max_length=100,default='Pas Encore')
@@ -122,8 +122,7 @@ class Eval_module(models.Model):
     date_eval=models.DateField(default=datetime.now())
     etudiant=models.ForeignKey(Doctorant,on_delete=models.CASCADE,default=1)
     module=models.ForeignKey(Module,on_delete=models.CASCADE,default=1)
+    appreciation=models.TextField(default='')  
+    type=models.TextField(default='')
 
-class PV(models.Model):
-    date_pv=models.DateField(default=datetime.now())
-    redacteur=models.ForeignKey(Employe,on_delete=models.CASCADE,default=1)    
-    piece =models.ForeignKey(PieceJointe,on_delete=models.CASCADE,default=1)
+

@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import Doctorant,User,Employe,Bourse,Reinscription,Etat_avancement,PieceJointe,Presentation
+from .models import Doctorant,User,Employe,Bourse,Reinscription,Fiche_evaluation,Etat_avancement,PieceJointe,Presentation,These,Eval_module,Dossier_Doctorant
+from .models import *
 from django.contrib import messages
 from django.template import RequestContext
 from django.conf import settings
@@ -9,6 +10,8 @@ from django.contrib.auth.models import  User,auth
 from .forms import LoginForm
 from datetime import datetime,date
 from django.http import JsonResponse
+import pandas as pd
+
 def home(request):
    doctorants=Doctorant.objects.all()
    context={
@@ -228,8 +231,37 @@ def doctorant(request):
     }
    return render(request,'gestion_FD/index_doctorant.html',context)
 def employee(request):
- 
-   return render(request,'gestion_FD/index_employee.html')
+   events = Presentation.objects.all()
+   all_events=[]
+   for e in events  :
+      for emp in e.jury.all():
+         if emp.compte==request.user :
+            all_events.append(e)
+
+   events = Presentation.objects.all()
+   today= date.today()
+   year=today.year-1
+   this_year=date(year, 1,1 )
+    # if filters applied then get parameter and filter based on condition else return object
+   if request.GET:  
+        event_arr = []
+        
+        for i in all_events:
+            event_sub_arr = {}
+            event_sub_arr['title'] = "presentation"
+            start_date = datetime.datetime.strptime(str(i.date_pres.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+            event_sub_arr['start'] = start_date
+            event_arr.append(event_sub_arr)
+        return HttpResponse(json.dumps(event_arr))
+
+   context = {
+        "events":all_events,
+        "pres":events,
+        "today": today,
+        "this_year":this_year 
+
+    }
+   return render(request,'gestion_FD/index_employee.html',context)
 
 def dpgr(request):
    etats=Etat_avancement.objects.all()
@@ -351,3 +383,338 @@ def login(request):
 def logout(request):
    auth.logout(request)
    return redirect('login')
+#zeyneb 
+def inscription(request):
+  #THIS IS INSCRIPTION DOCTORANT
+   alltheses= These.objects.all()
+   theses=These.objects.all()
+   c=[]
+  
+   vv=""
+   d=None
+   for d in Doctorant.objects.all():
+         if d.compte==request.user:
+           vv=""
+           break;  
+   if request.method=="POST":
+      nom=request.POST['fname']
+      prenom=request.POST['lname']
+      dnaiss=request.POST['dnaiss']
+      lieunaiss=request.POST['lieunaiss']
+      matricule=request.POST['matricule']
+      #choix=request.POST.getlist('thesechoisi')
+      choix=request.POST.getlist('choix')
+      myfile = request.FILES['cv']
+      fs=FileSystemStorage()
+      fs.save(myfile.name,myfile)
+      pj1=PieceJointe(lien= myfile)
+      pj1.save()
+      myfile1 = request.FILES['lettremotiv']
+      fs=FileSystemStorage()
+      fs.save(myfile1.name,myfile1)
+      pj2=PieceJointe(lien= myfile1)
+      pj2.save()  
+      myfile2 = request.FILES['photo']
+      fs=FileSystemStorage()
+      fs.save(myfile2.name,myfile2)
+      pj3=PieceJointe(lien= myfile2)
+      pj3.save()
+      dd= Dossier_Doctorant()
+      dd.save()
+      dd.pieces.add(pj1)
+      dd.pieces.add(pj2)
+      dd.pieces.add(pj3)
+      dd.save()
+      c=choix
+      alldoc =Doctorant.objects.all()
+   
+          
+      Doctorant.objects.filter(compte=request.user).update(nom=nom,prenom=prenom,date_naissance=dnaiss,wilaya_naissance=lieunaiss,dossier_id=dd.id,inscrit=True)
+      for d in alldoc:
+         if d.compte==request.user:
+           vv="Vous vous etes inscrit avec succées ! "
+           break;        
+      i=0
+      for ch in choix:
+       d.choix.add(ch)
+       d.save()
+       i=i+1
+      context={  
+         'vv':vv,
+        }
+
+   return render(request, 'gestion_FD/inscription_doc.html',{'alltheses': alltheses,'theses':theses,'c':c,
+           'uploaded_file_url': "succés ", 'vv':vv,'d':d,
+        })
+def affecterthses(request):
+    alldoctorants= Doctorant.objects.all()
+    i=1
+    while i<=len(alldoctorants):
+      j=0
+      for doc in alldoctorants:
+         if (i==doc.classement_concours):
+            choices=doc.choix.all()
+            for t in choices:
+               if(t.prise==False):
+                  t.prise==True
+                  t.date=Date.now()
+                  t.save()
+                  doc.choixfinal=t.intitule
+                  doc.save()
+                  break
+      i=i+1
+    return render(request,'gestion_FD/inscription_dpgr.html',{'alldoctorants':alldoctorants,'longeur':len(alldoctorants)})
+def archiveetatAvancement(request):
+   alldoctorants= Doctorant.objects.all()
+   alletat= Etat_avancement.objects.all()
+   allpieces= PieceJointe.objects.all()
+   return render (request,'gestion_FD/archiveEtatAvancement.html',{'alldoctorants':alldoctorants,'alletat':alletat,'allpieces':allpieces})
+
+def archiveDossierDoctorant(request):
+   allpiecesdos=[]
+   alldoctorants= Doctorant.objects.all()
+   allpieces= PieceJointe.objects.all()
+   alldossiers= Dossier_Doctorant.objects.all()
+   allpiecesdos=Dossier_Doctorant.pieces.__getattribute__
+   return render(request,'gestion_FD/archiveDossierDoctorant.html',{'alldoctorants':alldoctorants,'allpieces':allpieces,'alldossiers':alldossiers,'allpiecesdos':allpiecesdos} )
+
+def archiveFicheEvalution(request):
+   alldoctorants= Doctorant.objects.all()
+   allpieces= PieceJointe.objects.all()
+   allfiches=Fiche_evaluation.objects.all()
+   allemploye= Employe.objects.all()
+   return render(request,'gestion_FD/archiveFicheEvaluation.html',{'alldoctorants':alldoctorants,'allpieces':allpieces,'allfiches':allfiches,'allemploye':allemploye})    
+#lamia 
+def deposer_these_cfd(request):
+   if request.method == 'POST':
+      intetArr = request.POST.getlist('tnom')
+      resArr = request.POST.getlist('tresume')
+      print(intetArr,resArr)
+      if(intetArr != []):
+         for i in range(len(intetArr)):
+            if (resArr != []):
+               intet = intetArr[i]
+               res = resArr[i]
+               these = These(intitule = intet, resume = res)
+               these.save()
+      
+   return render(request,'gestion_FD/deposer_theses_cfd.html')
+
+def lister_theses(request):
+   employe=Employe.objects.all()
+   doctorants=Doctorant.objects.all()
+   doc_name="ll"
+   cfd=False
+  
+   for emp in employe: 
+          if (emp.compte==request.user):
+                 this_emp=emp
+                 roles=this_emp.role.all()
+                 for role in roles:
+                        if (role.nom=='CFD'):
+                                cfd=True
+
+   # theses_prise = These.objects.filter(prise=True)
+   theses = []
+   for doc in doctorants:
+      for t in doc.choix.all(): 
+        if (t.prise):
+           
+           doc_name=doc.nom
+           theses.append(t)
+
+   context ={
+      'CFD':cfd,
+      'theses':theses,
+      'nom_doc':doc_name,
+   }
+   if request.method == 'POST':
+      id_these = request.POST['id_th']
+      if request.POST.get('accept'):
+         These.objects.filter(id=id_these).update(valide_cfd=True)
+      else :
+         These.objects.filter(id=id_these).update(valide_cfd=False)
+      context2 ={
+         'CFD':cfd,
+         'theses':theses,
+         'nom_doc':doc_name,
+      }
+      return render(request,'gestion_Fd/liste_theses.html',context2)
+   else:
+      return render(request,'gestion_Fd/liste_theses.html',context)
+      
+#sirine 
+def evaluation_jury(request):
+
+       # Préparation des paramètres à passer
+       employe=Employe.objects.all()
+       jury=False
+       mydocs=[]
+       for emp in employe: 
+          if (emp.compte==request.user):
+                 this_emp=emp
+                 roles=this_emp.role.all()
+                 for role in roles:
+                        if (role.nom=='JURY'):
+                                jury=True
+                 #Récupérer les doctorants de ce jury
+                 pres=Presentation.objects.all()
+                 for p in pres:
+                        ju=p.jury.all()
+                        doc=p.doctorant
+                        for j in ju:
+                               if (j.compte==request.user):
+                                      mydocs.append(doc)
+                 mydocs= list(dict.fromkeys(mydocs))
+                        
+          
+       context={
+        'jury':jury,
+        'mydocs': mydocs,
+        'doctorants':mydocs
+         }
+       if request.method == 'POST' :
+              if request.POST.get('mydocs'):
+                     id1=request.POST['mydocs']
+                     d=Doctorant.objects.filter(id=id1).first()
+                     evals=Fiche_evaluation.objects.filter(doctorant=d).order_by('-date_eval')
+                     return render(request, 'gestion_FD/fiches_evaluation_employee.html', {
+                        'fiches': evals,
+                        'jury': jury,
+                        'mydocs': mydocs,
+                        'doctorants':mydocs
+                           })
+                     
+              if request.POST.get('Date'):
+                     myfile = request.FILES['fiche']
+                     date_eval=request.POST['Date']
+                     id_doc=request.POST['doctorant']
+                     doctorant=Doctorant.objects.filter(id=id_doc).first()
+                     pj=PieceJointe(lien= myfile)
+                     pj.save()
+                     employe=Employe.objects.all()
+                     for emp in employe: 
+                        if (emp.compte==request.user):
+                           this_emp=emp
+                 
+                     fiche=Fiche_evaluation(date_eval=date_eval,fichier=pj,doctorant=doctorant)
+                     fiche.save()
+                     fiche.jury.add(this_emp)
+                     fiche.save()
+
+                     return render(request, 'gestion_FD/fiches_evaluation_employee.html', {
+                         'uploaded_file_url': "succés ",
+                         'jury': jury,
+                        'mydocs': mydocs,
+                        'doctorants':mydocs
+                        })
+       else : 
+          return render(request,'gestion_FD/fiches_evaluation_employee.html',context) 
+              
+         
+def valider_eval(request):
+    
+   employe=Employe.objects.all()
+   cs=False
+   for emp in employe: 
+          if (emp.compte==request.user):
+                 this_emp=emp
+                 roles=this_emp.role.all()
+                 for role in roles:
+                        if (role.nom=='CS'):
+                                cs=True
+   fiches_nouvelles=Fiche_evaluation.objects.filter(valide__isnull=True).order_by('-date_eval')
+   archive=Fiche_evaluation.objects.filter(valide__isnull=False).order_by('-date_eval')
+   context={
+        'cs':cs,
+         'new': fiches_nouvelles,
+         'archive': archive
+         }
+   if request.method == 'POST':
+          idf=request.POST['id_fiche']
+          if request.POST.get('accept'):
+                 Fiche_evaluation.objects.filter(id=idf).update(valide=True)
+          else :
+                 Fiche_evaluation.objects.filter(id=idf).update(valide=False)
+          context2={
+             'cs': cs,
+             'new': Fiche_evaluation.objects.filter(valide__isnull=True).order_by('-date_eval'),
+             'archive' : Fiche_evaluation.objects.filter(valide__isnull=False).order_by('-date_eval')
+          }
+          return render(request,'gestion_FD/valider_evaluation.html', context2 )   
+   else :
+          return render(request,'gestion_FD/valider_evaluation.html',context)
+          
+def notes_prof(request):
+ employe=Employe.objects.all()
+ this_emp=None
+ for emp in employe: 
+          if (emp.compte==request.user):
+                 this_emp=emp
+ modules=Module.objects.filter(prof=this_emp)
+ mydocs=[]
+ for m in modules:
+        docs=m.etudiants.all()
+        for d in docs:
+               mydocs.append(d)
+ mydocs= list(dict.fromkeys(mydocs))
+ evals=Eval_module.objects.filter(module__in=modules,etudiant__in=mydocs).order_by('module')
+ 
+ context={'modules': modules, 'evals':evals}
+ if request.method == 'POST' :
+        if request.POST.get('modif') :
+               id_eval=request.POST['id_eval']
+               modif=request.POST['modif']
+               Eval_module.objects.filter(id=id_eval).update(Note=modif)
+               evals2=Eval_module.objects.filter(module__in=modules,etudiant__in=mydocs).order_by('module')
+               return render(request,'gestion_FD/notes_prof.html',{'modules':modules,'evals': evals2})
+        else:
+         myfile = request.FILES['notes']
+         date_eval=request.POST['Date']
+         id_module=request.POST['module']
+         type=request.POST['type']
+         pj=PieceJointe(lien= myfile)
+         pj.save()
+         url=pj.lien.url
+         if url.lower().endswith('.xlsx') :
+                  notes=pd.read_excel(myfile)
+                  l1=list(notes.columns)
+                  l1.sort()
+                  l2=['appreciation', 'matricule', 'nom', 'note', 'prenom']
+                  l2.sort()
+                  if (l1==l2):
+                     mod=Module.objects.filter(id=id_module).first()
+                     for i in range(0,len(notes)):
+                           matricule=notes.at[i,'matricule']
+                           note=notes.at[i,'note']
+                           app=notes.at[i,'appreciation']
+                           doc=Doctorant.objects.filter(matricule=matricule).first()
+                           evaluation=Eval_module(Note=note,date_eval=date_eval,etudiant=doc,module=mod,appreciation=app,type=type)
+                           evaluation.save()
+                     format='Notes importées avec succés'        
+                  else:
+                         format='Le fichier excel importé ne respecte pas le modèle, veuillez suivre le modèle fourni ci-dessous'
+         else :
+                  format='Format erroné, vous devez importer un fichier excel (.xlsx )'
+         return render(request, 'gestion_FD/notes_prof.html', {
+                           'uploaded_file_url': format,
+                           'modules' : modules,
+                           'evals' : evals
+                           })
+        
+ else:     
+   return render(request,'gestion_FD/notes_prof.html',context)
+           
+def notes_doc(request):
+   doctorants=Doctorant.objects.all()
+   for doc in doctorants:
+          if (doc.compte==request.user) :
+                 this_doc=doc
+                 break
+   notes=Eval_module.objects.filter(etudiant=this_doc).order_by('-date_eval')
+   context={'notes':notes}          
+   return  render(request,'gestion_FD/notes_doctorant.html',context) 
+def reins_dpgr(request):
+   etats=Etat_avancement.objects.all()
+   context={'etats':etats}
+   return  render(request,'gestion_FD/reinscription_dpgr.html',context)    

@@ -1,359 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="Dashboard">
-  <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-  <title>DPGR-Notes</title>
-
-  <!-- Favicons -->
-  <link href="img/logo.png" rel="icon">
-  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Bootstrap core CSS -->
-  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <!--external css-->
-  <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
- 
-  <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet">
-  <link href="css/style-responsive.css" rel="stylesheet">
-  
-
-  <!-- =======================================================
-    Template Name: Dashio
-    Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
-    Author: TemplateMag.com
-    License: https://templatemag.com/license/
-  ======================================================= -->
-</head>
-
-<body>
-  <section id="container">
-    <!-- **********************************************************************************************************************************************************
-        TOP BAR CONTENT & NOTIFICATIONS
-        *********************************************************************************************************************************************************** -->
-    <!--header start-->
-    <header class="header black-bg">
-      <div class="sidebar-toggle-box">
-        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
-      </div>
-      <!--logo start-->
-      <a href="index.html" class="logo"><b>Formation<span>Doctorale</span></b></a>
-      <!--logo end-->
-    
-      <div class="top-menu">
-        <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="login.html">Déconnexion</a></li>
-        </ul>
-      </div>
-    </header>
-    <!--header end-->
-    <!-- **********************************************************************************************************************************************************
-        MAIN SIDEBAR MENU
-        *********************************************************************************************************************************************************** -->
-     <!--sidebar start-->
-    <aside>
-      <div id="sidebar" class="nav-collapse ">
-        <!-- sidebar menu start-->
-        <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="60"></a></p>
-          <h5 class="centered">Employé</h5>
-          <li class="mt">
-            <a  href="index_employee.html">
-              <i class="fa fa-calendar"></i>
-              <span>Planning</span>
-              </a>
-          </li>
-            <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-pencil"></i>
-              <span>Inscription </span>
-              </a>
-                <ul class="sub">
-              <li><a href="inscription_cfd.html">Validation CFD</a></li>
-              <li><a href="inscription_cs.html">Validation CS</a></li>
-            </ul>
-          </li>
-          <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-folder-open"></i>
-              <span>Réinscription </span>
-              </a>
-                <ul class="sub">
-              <li><a href="reinscription_cfd.html">Validation CFD</a></li>
-              <li><a href="reinscription_cs.html">Validation CS</a></li>
-            </ul>
-          </li>
-           <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-graduation-cap"></i>
-              <span>Thèses </span>
-              </a>
-                <ul class="sub">
-              <li><a href="deposer_theses_cfd.html">Déposer la liste des thèses</a></li>
-              <li><a href="liste_theses.html">Thèses des doctorants</a></li>
-            </ul>
-          </li>
-          <li >
-            <a href="etat_avancement_employee.html" >
-              <i class="fa fa-book"></i>
-              <span>Etats d'avancement</span>
-              </a>
-          </li>
-      
-            <li>
-            <a class="active" href="notes_prof.html">
-              <i class="fa fa-table"></i>
-              <span>Notes des doctorants</span>
-              </a>
-          </li>
-           <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-star"></i>
-              <span>Evaluation</span>
-              </a>
-            <ul class="sub">
-              <li><a href="fiches_evaluation_employee.html">Fiches d'évaluations</a></li>
-              <li><a href="pv_employee.html">PVs</a></li>
-              
-            </ul>
-          </li>
-
-            <li>
-            <a href="profile_employee.html">
-              <i class="fa fa-user-circle"></i>
-              <span>Profile </span>
-              </a>
-          </li>
-          
-        </ul>
-         <div class="centered">
-            
-            <img src="img/logo.png" height="50" width="50" />
-           
-           
-          </div>
-        <!-- sidebar menu end-->
-      </div>
-    </aside>
-    <!--sidebar end-->
-    <!-- **********************************************************************************************************************************************************
+{% extends "gestion_FD/base_employe.html "%}
+{% block content %}
+{% load static %}
+ <!-- **********************************************************************************************************************************************************
         MAIN CONTENT
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> Basic Table Examples</h3>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="content-panel">
-              <h4><i class="fa fa-angle-right"></i> Basic Table</h4>
-              <hr>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <!-- /col-md-12 -->
-          <div class="col-md-12 mt">
-            <div class="content-panel">
-              <table class="table table-hover">
-                <h4><i class="fa fa-angle-right"></i> Hover Table</h4>
-                <hr>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Simon</td>
-                    <td>Mosa</td>
-                    <td>@twitter</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <!-- /col-md-12 -->
-        </div>
-        <!-- row -->
+       <h3><i class="fa fa-angle-right"></i> Notes</h3>
         <div class="row mt">
-          <div class="col-md-12">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <h4 class="mb"><i class="fa fa-angle-right"></i> Déposer</h4>
+           
+              <form class="form-inline" role="form" id="fileupload"  method="POST" enctype="multipart/form-data">
+                 {% csrf_token %}
+              <!-- Redirect browsers with JavaScript disabled to the origin page -->
+              <noscript>
+                  <input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/">
+                </noscript>
+
+                
+                <div class="form-group">
+                  <label class="sr-only" for="exampleInputEmail2">Module</label>
+                  <div class="input-group bootstrap-form-select">
+                  <select class="form-control selectpicker" name="module" id="module" placeholder="module" required>
+                  {% for m in modules %}
+                  <option class="form-control-option" name="module" value="{{m.id}}">{{m.nom}}</option>
+                  {% endfor %}
+                  </select>
+                </div>
+                </div>
+
+                 <div class="form-group">
+                  <label class="sr-only" for="exampleInputPassword2">Type</label>
+                   <div class="col-md-3 col-xs-11">
+                    <input class="form-control" type="text" name="type" placeholder="Type d'évaluation" required>
+
+                   </div>
+                 
+                </div>
+                
+                <div class="form-group">
+                  <label class="sr-only" for="exampleInputPassword2">Date</label>
+                   <div class="col-md-3 col-xs-11">
+                    <input class="form-control form-control-inline input-medium default-date-picker" size="16" type="date" name="Date" required>
+
+                   </div>
+                 
+                </div>
+                <div class="form-group">
+                 <span class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span> Importer les notes</span>
+                  <input type="file" name="notes"  required>
+
+                  </span>
+
+                </div>
+                 <button class="btn btn-theme" href="#" type="submit" style="background-color:#43b1a9;">Déposer</button>
+                  <span class="fileupload-process"></span>
+              </form>
+            
+            </div>
+            <!-- /form-panel -->
+          </div>
+          <!-- /col-lg-12 -->
+        </div>
+       
+            {% if uploaded_file_url %}
+            <p>{{ uploaded_file_url }}</p>
+          {% endif %}
+
+          </div>
+        </div>
+         <br>
             <div class="content-panel">
-              <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i> Advanced Table</h4>
-                <hr>
+              <div class="panel-body">
+                
+                <p>
+                  <b>Remarque : Vous devez importer un fichier excel suivant exactement le modèle suivant : <a href="https://drive.google.com/file/d/1vKnOJk5WJ9hfTNlons4Q00s5gF-Agjo9/view?usp=sharing"> Modèle </a> </b>
+                </p>
+               
+              </div>
+            </div>
+          <!-- Begin table-->
+          <br>
+           <h3><i class="fa fa-angle-right"></i> Notes de mes doctorants</h3>
+        <div class="row mb">
+          <!-- page start-->
+          <div class="content-panel">
+            <div class="adv-table">
+              <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
                 <thead>
                   <tr>
-                    <th><i class="fa fa-bullhorn"></i> Company</th>
-                    <th class="hidden-phone"><i class="fa fa-question-circle"></i> Descrition</th>
-                    <th><i class="fa fa-bookmark"></i> Profit</th>
-                    <th><i class=" fa fa-edit"></i> Status</th>
-                    <th></th>
+                    <th>#</th>
+                    <th>Module</th>
+                    <th class="hidden-phone">Doctorant</th>
+                    <th class="hidden-phone">Note</th>
+                    <th class="hidden-phone">Modifier</th>
                   </tr>
                 </thead>
                 <tbody>
+               {% for n in evals %}
                   <tr>
-                    <td>
-                      <a href="basic_table.html#">Company Ltd</a>
-                    </td>
-                    <td class="hidden-phone">Lorem Ipsum dolor</td>
-                    <td>12000.00$ </td>
-                    <td><span class="label label-info label-mini">Due</span></td>
-                    <td>
-                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                    </td>
+                    <td>{{   forloop.counter  }}</td>
+                    <td>{{ n.module.nom }}</td>
+                    <td>{{n.etudiant.nom}} {{n.etudiant.prenom}}</td>
+                    <td>{{ n.Note }}</td>
+                     <td>
+                      <form  role="form" id="notes"  method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                      <input type="hidden" name="id_eval" value="{{n.id}}"> 
+                      <input type="number" name="modif" required>
+                      <button class="btn btn-primary btn-xs" type="submit"><i class="fa fa-pencil"></i></button>
+                     
+                      </form>
+                  </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <a href="basic_table.html#">
-                        Dashio co
-                        </a>
-                    </td>
-                    <td class="hidden-phone">Lorem Ipsum dolor</td>
-                    <td>17900.00$ </td>
-                    <td><span class="label label-warning label-mini">Due</span></td>
-                    <td>
-                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="basic_table.html#">
-                        Another Co
-                        </a>
-                    </td>
-                    <td class="hidden-phone">Lorem Ipsum dolor</td>
-                    <td>14400.00$ </td>
-                    <td><span class="label label-success label-mini">Paid</span></td>
-                    <td>
-                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="basic_table.html#">Dashio ext</a>
-                    </td>
-                    <td class="hidden-phone">Lorem Ipsum dolor</td>
-                    <td>22000.50$ </td>
-                    <td><span class="label label-success label-mini">Paid</span></td>
-                    <td>
-                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="basic_table.html#">Total Ltd</a>
-                    </td>
-                    <td class="hidden-phone">Lorem Ipsum dolor</td>
-                    <td>12120.00$ </td>
-                    <td><span class="label label-warning label-mini">Due</span></td>
-                    <td>
-                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                    </td>
-                  </tr>
+                {% endfor %}
                 </tbody>
               </table>
             </div>
-            <!-- /content-panel -->
           </div>
-          <!-- /col-md-12 -->
-        </div>
-        <!-- /row -->
+          </div>
+            <!--End table-->
+       
       </section>
     </section>
-    <!-- /MAIN CONTENT -->
-    <!--main content end-->
-    <!--footer start-->
-    <footer class="site-footer">
-      <div class="text-center">
-        <p>
-          &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
-        </p>
-        <div class="credits">
-          <!--
-            You are NOT allowed to delete the credit link to TemplateMag with free version.
-            You can delete the credit link only if you bought the pro version.
-            Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/dashio-bootstrap-admin-template/
-            Licensing information: https://templatemag.com/license/
-          -->
-          Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
-        </div>
-        <a href="basic_table.html#" class="go-top">
-          <i class="fa fa-angle-up"></i>
-          </a>
-      </div>
-    </footer>
-    <!--footer end-->
-  </section>
-  <!-- js placed at the end of the document so the pages load faster -->
-  <script src="lib/jquery/jquery.min.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
-  <script src="lib/jquery.scrollTo.min.js"></script>
-  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-  <!--common script for all pages-->
-  <script src="lib/common-scripts.js"></script>
-  <!--script for this page-->
   
-</body>
+  </section> 
 
-</html>
+ 
+
+{% endblock content%}
