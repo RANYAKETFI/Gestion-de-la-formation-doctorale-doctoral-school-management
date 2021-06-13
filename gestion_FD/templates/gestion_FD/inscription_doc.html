@@ -1,7 +1,7 @@
 {% extends "gestion_FD/base_doctorant.html" %}
 {% block content %}
   {% load static %} 
-
+  
     <section id="main-content">
     <section class="wrapper site-min-height">
     
@@ -59,7 +59,6 @@
             <span>Joindre votre CV</span>
           <input type="file" name="cv">
           </span>
-        </span>
           <span class="btn btn-success fileinput-button">
             <i class="glyphicon glyphicon-plus"></i>
             <span>Joindre votre lettre de motivation</span>
@@ -75,33 +74,34 @@
            <h4>Fichier chargé avec: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></h4>
          {% endif %}
         -->
-            <div>
-              <br>
-                  </br>
-                <h3>Veuillez selectionner vos choix de thèse :</h3>
-                <br>
-             
-
-                  <div class="input-group bootstrap-form select"></div>
-                    {% for these in theses %}
-                    <h3> Choix de la thèse n° {{forloop.counter}}</h3>
-                    <select class="form-control form-control-sm"  name='choix' value="{{these.id}}"  method="POST">
-                        
-                     {% for t in alltheses %}
-                          <option class="form-control-option " value="{{t.id}}" name="thesechoisi" method="POST">
-                              {{ t.intitule }} 
-                          </option>
-                          {% endfor %}
-                    </select>
-                    <br>
-                     {% endfor %}
-               </div>
-            </div>
-            <div class="col-md-8">
+        <div>
+          <br>
+          </br>
+          <h2>Veuillez selectionner vos choix de thèse</h2>
+          <br>
+          </br> 
+          <br>
+          </br> 
+          <div class="input-group bootstrap-form select">
+            {% for these in theses %}
+            <h3> Choix de la thèse n° {{forloop.counter}}</h3>
+            <select class="form-control form-control-sm"  name='choix' value="{{these.id}}"  method="POST">
+                
+              {% for t in alltheses %}
+                  <option class="form-control-option " value="{{t.id}}" name="thesechoisi" method="POST">
+                      {{ t.intitule }} 
+                  </option>
+                  {% endfor %}
+            </select>
+            <br> </br> 
+              {% endfor %}
+          </div>
+        </div>
+        <div class="col-md-8">
               <br></br>
-             <button type="submit" class="btn btn-primary btn-lg">S'inscrir</button>
-            </div>
-      </form>
+             <button type="submit" class="btn btn-primary btn-lg">S'inscrire</button>
+        </div>
+        </form>
       {%endif%}
     </div>
     </div>
