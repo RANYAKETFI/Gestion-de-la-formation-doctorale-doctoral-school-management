@@ -165,7 +165,11 @@
                      {% if f.valide is True %}
                     <td><span class="badge bg-success">Acceptée</span></td>
                     {% else %}
+                    {% if f.valide is False %}
                     <td><span class="badge bg-important">Refusée</span></td>
+                    {% else %}
+                     <td><span class="badge bg-warning">En cours</span></td>
+                    {% endif %}
                     {% endif %}
                   </tr>
                 {% endfor %}
