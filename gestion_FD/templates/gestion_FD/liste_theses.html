@@ -40,7 +40,8 @@
                      {% for e in allemp%}
                       {% if dt.id == e.id %}
                       <td class="hidden-phone">{{dt.nom}} {{dt.prenom}}</td>   
-                      
+                      {% else %}
+                      <td class="hidden-phone">None</td>
                       {% endif %}
                      {% endfor %}
                     

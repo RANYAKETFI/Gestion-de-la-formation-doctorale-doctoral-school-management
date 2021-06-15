@@ -510,7 +510,7 @@ def login(request):
                    if(emp.compte==user) :
                       roles=emp.role.all()
                       for r in roles : 
-                       if r.nom!="DAPGR" and r.nom!="DAPGR":
+                       if r.nom!="DAPGR" and r.nom!="ADPGR":
                          return redirect("/employee")  
                        else :   
                          return redirect("/dpgr") 
