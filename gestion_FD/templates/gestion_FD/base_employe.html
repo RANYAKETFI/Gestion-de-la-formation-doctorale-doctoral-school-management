@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,7 +70,7 @@
           <p class="centered"><a href="/employee/"><img src="{% static  "img/ui-sam.jpg" %}" class="img-circle" width="60"></a></p>
           <h5 class="centered">Employé</h5>
           <li class="mt">
-            <a  href="/employe">
+            <a  href="/employee">
               <i class="fa fa-calendar"></i>
               <span>Planning</span>
               </a>
@@ -82,8 +81,17 @@
               <span>Inscription </span>
               </a>
                 <ul class="sub">
-              <li><a href="inscription_cfd.html">Validation CFD</a></li>
-              <li><a href="inscription_cs.html">Validation CS</a></li>
+              {% if CFD %}
+                <li><a href="/employee/inscription/validation_cfd">Validation CFD</a></li>
+              {% else %}
+                <li><a class ="disabled" style = "color:grey; pointer-events: none;text-decoration: none;" href=" # ">Validation CFD</a></li>
+              {% endif %}
+              
+              {% if CS %}
+                <li><a href="/employee/inscription/validation_cs">Validation CS</a></li>
+              {% else %}
+                <li><a class ="disabled" style = "color:grey; pointer-events: none;text-decoration: none;" href="#">Validation CS</a></li>
+              {% endif %}
             </ul>
           </li>
           <li class="sub-menu">
@@ -92,9 +100,23 @@
               <span>Réinscription </span>
               </a>
                 <ul class="sub">
-              <li><a href="/employee/reinsc_cfd">Validation CFD</a></li>
-              <li><a href="/employee/reinsc_cs">Validation CS</a></li>
-              <li><a href="/employee/reinsc_prof">Suivi Doctorant</a></li>
+                  {% if CFD %}
+                  <li><a href="/employee/reinsc_cfd">Validation CFD</a></li>
+                  {% else %}
+                  <li><a href="#" class ="disabled" style = "color:grey; pointer-events: none;text-decoration: none;">Validation CFD</a></li>
+                  {% endif %}
+
+                  {% if CS %}
+                  <li><a href="/employee/reinsc_cs">Validation CS</a></li>
+                  {% else %}
+                  <li><a href="#" class ="disabled" style = "color:grey; pointer-events: none;text-decoration: none;">Validation CS</a></li>
+                  {% endif %}
+
+                  {% if DT %}
+                  <li><a href="/employee/reinsc_prof">Suivi Doctorant</a></li>
+                  {% else %}
+                  <li><a href="#" class ="disabled" style = "color:grey; pointer-events: none;text-decoration: none;">Suivi Doctorant</a></li>
+                  {% endif %}
 
             </ul>
           </li>
@@ -104,32 +126,65 @@
               <span>Thèses </span>
               </a>
                 <ul class="sub">
-              <li><a href="deposer_theses_cfd.html">Déposer la liste des thèses</a></li>
-              <li><a href="liste_theses.html">Thèses des doctorants</a></li>
-            </ul>
+                  {% if CFD %}
+                  <li><a href="/employee/deposer_these_cfd">Déposer la liste des thèses</a></li>
+                  {% else %}
+                  <li><a href="#" class ="disabled" style = "color:grey; pointer-events: none;text-decoration: none;">Déposer la liste des thèses</a></li>
+                  {% endif %}
+
+                  <li><a href="/employee/liste_theses">Thèses des doctorants</a></li>
+                </ul>
           </li>
+          {% if JURY %}
           <li >
             <a href="etat_avancement_employee.html" >
               <i class="fa fa-book"></i>
               <span>Etats d'avancement</span>
               </a>
           </li>
-      
+          {% else %}
+          <li >
+            <a href="#" class ="disabled" style = "color:grey; pointer-events: none;text-decoration: none;">
+              <i class="fa fa-book"></i>
+              <span>Etats d'avancement</span>
+              </a>
+          </li>
+          {% endif %}
+
+          {% if PROF %}
             <li>
-            <a href="/employee/notes_prof">
+             <a href="/employee/notes_prof">
               <i class="fa fa-table"></i>
               <span>Notes des doctorants</span>
               </a>
-          </li>
+            </li>
+          {% else %}
+          <li>
+            <a href="#" style = "color:grey; pointer-events: none;text-decoration: none;">
+             <i class="fa fa-table"></i>
+             <span>Notes des doctorants</span>
+             </a>
+           </li>
+          {% endif %}
            <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-star"></i>
               <span>Evaluation</span>
               </a>
             <ul class="sub">
+              {% if JURY %}
               <li><a href="/employee/evaluation_jury">Fiches d'évaluations</a></li>
-              <li><a href="/employee/valider_evaluation">Valider les évaluations</a></li>
-              
+              {% else %}
+              <li><a href="#" style = "color:grey; pointer-events: none;text-decoration: none;">Fiches d'évaluations</a></li>
+              {% endif %}
+
+              {% if CFD %}
+              <li><a href="/employee/valider_evaluation" >Valider les évaluations</a></li>
+              {% elif CS %}
+              <li><a href="/employee/valider_evaluation" >Valider les évaluations</a></li>
+              {% else %}
+              <li><a href="#" style = "color:grey; pointer-events: none;text-decoration: none;" >Valider les évaluations</a></li>
+              {% endif %}
             </ul>
           </li>
 
@@ -150,11 +205,12 @@
         <!-- sidebar menu end-->
       </div>
     </aside>
+    
      <section id="container">
         {% block content %}
         {% endblock %}
     </section>
-
+  
     <!-- js placed at the end of the document so the pages load faster -->
   <script src="{% static "lib/jquery/jquery.min.js" %}" ></script>
   <script src="{% static "lib/jquery-ui-1.9.2.custom.min.js" %}"></script>

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from .models import Doctorant,User,Employe,Bourse,Reinscription,Fiche_evaluation,Etat_avancement,PieceJointe,Presentation,These,Eval_module,Dossier_Doctorant
 from .models import *
 from django.contrib import messages
-from django.template import RequestContext
+from django.template import RequestContext, context
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import  User,auth
@@ -18,6 +18,38 @@ def home(request):
         'doctorants':doctorants
     }
    return render(request,'gestion_FD/home.html',context)
+   
+   # def role_employe(request):
+   # employee = Employe.objects.all() 
+   # cfd=False
+   # cs=False
+   # jury=False
+   # prof=False
+   # dt=False
+   # for emp in employee:
+   #    if (emp.compte==request.user):
+   #       this_emp=emp
+   #       roles=this_emp.role.all()
+   #       for role in roles:
+   #          if (role.nom=='CFD'):
+   #             cfd=True
+   #          if (role.nom=='CS'):
+   #             cs=True
+   #          if (role.nom=='JURY'):
+   #             jury=True
+   #          if (role.nom=='PROF'):
+   #             prof=True
+   #          if (role.nom=='DT'):
+   #             dt=True
+   # context ={
+   #    'CFD':cfd,
+   #    'CS':cs,
+   #    'JURY':jury,
+   #    'PROF':prof,
+   #    'DT':dt,
+   # }
+   # return render(request,'gestion_Fd/base_employe.html',context)
+
 def reins_prof(request):
    doctorants=Doctorant.objects.all()
    docs=[]
@@ -25,11 +57,29 @@ def reins_prof(request):
    valide=""
    note="" 
    employee=Employe.objects.all()
+   cfd=False
+   cs=False
+   jury=False
+   prof=False
+   dt=False
    emp=None
    ri=False
    for e in employee:
       if e.compte==request.user:
          emp=e   
+         this_e=e
+         roles=this_e.role.all()
+         for role in roles:
+            if (role.nom=='CFD'):
+               cfd=True
+            if (role.nom=='CS'):
+               cs=True
+            if (role.nom=='JURY'):
+               jury=True
+            if (role.nom=='PROF'):
+               prof=True
+            if (role.nom=='DT'):
+               dt=True
    for d in doctorants :
       
       ch=d.choix.all()
@@ -64,15 +114,46 @@ def reins_prof(request):
       return render(request,'gestion_FD/reinsc_prof.html',{
         'docs':docs,
         'declaration':declaration,
-        'r':ri
+        'r':ri,
+        'CFD':cfd,
+        'CS':cs,
+        'JURY':jury,
+        'PROF':prof,
+        'DT':dt,
     })
    context={
         'docs':docs,
         'declaration':declaration,
-        'r':ri
+        'r':ri,
+        'CFD':cfd,
+        'CS':cs,
+        'JURY':jury,
+        'PROF':prof,
+        'DT':dt,
     }
    return render(request,'gestion_FD/reinsc_prof.html',context)  
 def reins_cfd(request):
+   employee = Employe.objects.all() 
+   cfd=False
+   cs=False
+   jury=False
+   prof=False
+   dt=False
+   for emp in employee:
+      if (emp.compte==request.user):
+         this_emp=emp
+         roles=this_emp.role.all()
+         for role in roles:
+            if (role.nom=='CFD'):
+               cfd=True
+            if (role.nom=='CS'):
+               cs=True
+            if (role.nom=='JURY'):
+               jury=True
+            if (role.nom=='PROF'):
+               prof=True
+            if (role.nom=='DT'):
+               dt=True
    doctorants=Doctorant.objects.all()
    docs=[]
    done=False
@@ -101,16 +182,47 @@ def reins_cfd(request):
         'docs':docs,
         'r':r,
         'reins':reins,
-        'done':done
+        'done':done,
+        'CFD':cfd,
+        'CS':cs,
+        'JURY':jury,
+        'PROF':prof,
+        'DT':dt,
     })
    context={
         'docs':docs,
         'r':r,
         'reins':reins,
-        'done':done
+        'done':done,
+        'CFD':cfd,
+        'CS':cs,
+        'JURY':jury,
+        'PROF':prof,
+        'DT':dt,
     }
    return render(request,'gestion_FD/reinscription_cfd.html',context)   
 def reins_cs(request):
+   employee = Employe.objects.all() 
+   cfd=False
+   cs=False
+   jury=False
+   prof=False
+   dt=False
+   for emp in employee:
+      if (emp.compte==request.user):
+         this_emp=emp
+         roles=this_emp.role.all()
+         for role in roles:
+            if (role.nom=='CFD'):
+               cfd=True
+            if (role.nom=='CS'):
+               cs=True
+            if (role.nom=='JURY'):
+               jury=True
+            if (role.nom=='PROF'):
+               prof=True
+            if (role.nom=='DT'):
+               dt=True
    doctorants=Doctorant.objects.all()
    docs=[]
    done=False
@@ -142,13 +254,23 @@ def reins_cs(request):
         'docs':docs,
         'r':r,
         'reins':reins,
-        'done':done
+        'done':done,
+        'CFD':cfd,
+        'CS':cs,
+        'JURY':jury,
+        'PROF':prof,
+        'DT':dt,
     })
    context={
         'docs':docs,
         'r':r,
         'reins':reins,
-        'done':done
+        'done':done,
+        'CFD':cfd,
+        'CS':cs,
+        'JURY':jury,
+        'PROF':prof,
+        'DT':dt,
     }
    return render(request,'gestion_FD/reinscription_cs.html',context)        
 def reinscription(request):
@@ -231,6 +353,27 @@ def doctorant(request):
     }
    return render(request,'gestion_FD/index_doctorant.html',context)
 def employee(request):
+   employee = Employe.objects.all() 
+   cfd=False
+   cs=False
+   jury=False
+   prof=False
+   dt=False
+   for emp in employee:
+      if (emp.compte==request.user):
+         this_emp=emp
+         roles=this_emp.role.all()
+         for role in roles:
+            if (role.nom=='CFD'):
+               cfd=True
+            if (role.nom=='CS'):
+               cs=True
+            if (role.nom=='JURY'):
+               jury=True
+            if (role.nom=='PROF'):
+               prof=True
+            if (role.nom=='DT'):
+               dt=True
    events = Presentation.objects.all()
    all_events=[]
    for e in events  :
@@ -258,8 +401,12 @@ def employee(request):
         "events":all_events,
         "pres":events,
         "today": today,
-        "this_year":this_year 
-
+        "this_year":this_year,
+        'CFD':cfd,
+        'CS':cs,
+        'JURY':jury,
+        'PROF':prof,
+        'DT':dt, 
     }
    return render(request,'gestion_FD/index_employee.html',context)
 
@@ -486,6 +633,34 @@ def archiveFicheEvalution(request):
    return render(request,'gestion_FD/archiveFicheEvaluation.html',{'alldoctorants':alldoctorants,'allpieces':allpieces,'allfiches':allfiches,'allemploye':allemploye})    
 #lamia 
 def deposer_these_cfd(request):
+   employee = Employe.objects.all() 
+   cfd=False
+   cs=False
+   jury=False
+   prof=False
+   dt=False
+   for emp in employee:
+      if (emp.compte==request.user):
+         this_emp=emp
+         roles=this_emp.role.all()
+         for role in roles:
+            if (role.nom=='CFD'):
+               cfd=True
+            if (role.nom=='CS'):
+               cs=True
+            if (role.nom=='JURY'):
+               jury=True
+            if (role.nom=='PROF'):
+               prof=True
+            if (role.nom=='DT'):
+               dt=True
+   context ={
+      'CFD':cfd,
+      'CS':cs,
+      'JURY':jury,
+      'PROF':prof,
+      'DT':dt,
+   }
    if request.method == 'POST':
       intetArr = request.POST.getlist('tnom')
       resArr = request.POST.getlist('tresume')
@@ -498,35 +673,89 @@ def deposer_these_cfd(request):
                these = These(intitule = intet, resume = res)
                these.save()
       
-   return render(request,'gestion_FD/deposer_theses_cfd.html')
+   return render(request,'gestion_FD/deposer_theses_cfd.html',context)
 
 def lister_theses(request):
-   employe=Employe.objects.all()
-   doctorants=Doctorant.objects.all()
-   doc_name="ll"
+   employee = Employe.objects.all() 
    cfd=False
-  
-   for emp in employe: 
-          if (emp.compte==request.user):
-                 this_emp=emp
-                 roles=this_emp.role.all()
-                 for role in roles:
-                        if (role.nom=='CFD'):
-                                cfd=True
+   cs=False
+   jury=False
+   prof=False
+   dt=False
+   for emp in employee:
+      if (emp.compte==request.user):
+         this_emp=emp
+         roles=this_emp.role.all()
+         for role in roles:
+            if (role.nom=='CFD'):
+               cfd=True
+            if (role.nom=='CS'):
+               cs=True
+            if (role.nom=='JURY'):
+               jury=True
+            if (role.nom=='PROF'):
+               prof=True
+            if (role.nom=='DT'):
+               dt=True
+   these = These.objects.all()
+   theses = []
+   for t in these:
+      theses.append(t)
+   context ={
+         'theses':theses, 
+         'CFD':cfd,
+         'CS':cs,
+         'JURY':jury,
+         'PROF':prof,
+         'DT':dt,
+      }
+            
+   return render(request,'gestion_Fd/liste_theses.html',context)
 
-   # theses_prise = These.objects.filter(prise=True)
+
+def inscription_cfd(request):
+   employee = Employe.objects.all() 
+   cfd=False
+   cs=False
+   jury=False
+   prof=False
+   dt=False
+   for emp in employee:
+      if (emp.compte==request.user):
+         this_emp=emp
+         roles=this_emp.role.all()
+         for role in roles:
+            if (role.nom=='CFD'):
+               cfd=True
+            if (role.nom=='CS'):
+               cs=True
+            if (role.nom=='JURY'):
+               jury=True
+            if (role.nom=='PROF'):
+               prof=True
+            if (role.nom=='DT'):
+               dt=True
+   
+   doctorants=Doctorant.objects.all()
+   doc_name=""
+   doc_prenom=""
    theses = []
    for doc in doctorants:
       for t in doc.choix.all(): 
         if (t.prise):
-           
            doc_name=doc.nom
+           doc_prenom=doc.prenom
            theses.append(t)
 
    context ={
-      'CFD':cfd,
       'theses':theses,
       'nom_doc':doc_name,
+      'prenom_doc':doc_prenom,
+      'CFD':cfd,
+      'CS':cs,
+      'JURY':jury,
+      'PROF':prof,
+      'DT':dt,
    }
    if request.method == 'POST':
       id_these = request.POST['id_th']
@@ -535,19 +764,84 @@ def lister_theses(request):
       else :
          These.objects.filter(id=id_these).update(valide_cfd=False)
       context2 ={
-         'CFD':cfd,
          'theses':theses,
          'nom_doc':doc_name,
+         'prenom_doc':doc_prenom,
+         'CFD':cfd,
+         'CS':cs,
+         'JURY':jury,
+         'PROF':prof,
+         'DT':dt,  
       }
-      return render(request,'gestion_Fd/liste_theses.html',context2)
+      return render(request,'gestion_Fd/inscription_cfd.html',context2)
    else:
-      return render(request,'gestion_Fd/liste_theses.html',context)
-      
+      return render(request,'gestion_Fd/inscription_cfd.html',context)
+
+def inscription_cs(request):
+
+   employee = Employe.objects.all() 
+   cfd=False
+   cs=False
+   jury=False
+   prof=False
+   dt=False
+   for emp in employee:
+      if (emp.compte==request.user):
+         this_emp=emp
+         roles=this_emp.role.all()
+         for role in roles:
+            if (role.nom=='CFD'):
+               cfd=True
+            if (role.nom=='CS'):
+               cs=True
+            if (role.nom=='JURY'):
+               jury=True
+            if (role.nom=='PROF'):
+               prof=True
+            if (role.nom=='DT'):
+               dt=True
+   
+   doctorant = Doctorant.objects.filter(inscrit=True)
+   doctorants = []
+   these = ""
+   for doc in doctorant:
+      for t in doc.choix.all():
+         if (t.prise) and (t.valide_cfd):
+            doctorants.append(doc)
+            these=t.intitule
+   context ={
+      'doctorants':doctorants,
+      'these':these,
+      'CFD':cfd,
+      'CS':cs,
+      'JURY':jury,
+      'PROF':prof,
+      'DT':dt,
+   }
+
+   if request.method == 'POST':
+      id_doc = request.POST['id_doctorant']
+      if request.POST.get('accept'):
+         Doctorant.objects.filter(id=id_doc).update(inscr_valid_cs=True)
+      else :
+         Doctorant.objects.filter(id=id_doc).update(inscr_valid_cs=False)
+      context2 ={
+         'doctorants':doctorants,
+         'these':these,
+      }
+      return render(request,'gestion_FD/inscription_cs.html',context2)
+   return render(request,'gestion_FD/inscription_cs.html',context)
+   
+
 #sirine 
 def evaluation_jury(request):
 
        # Préparation des paramètres à passer
        employe=Employe.objects.all()
+       cfd=False
+       cs=False  
+       prof=False
+       dt=False
        jury=False
        mydocs=[]
        for emp in employe: 
@@ -557,6 +851,14 @@ def evaluation_jury(request):
                  for role in roles:
                         if (role.nom=='JURY'):
                                 jury=True
+                        if (role.nom=='CFD'):
+                                cfd=True
+                        if (role.nom=='CS'):
+                                cs=True
+                        if (role.nom=='PROF'):
+                                prof=True
+                        if (role.nom=='DT'):
+                                dt=True
                  #Récupérer les doctorants de ce jury
                  pres=Presentation.objects.all()
                  for p in pres:
@@ -570,6 +872,11 @@ def evaluation_jury(request):
           
        context={
         'jury':jury,
+        'CFD':cfd,
+        'CS':cs,
+        'JURY':jury,
+        'PROF':prof,
+        'DT':dt,
         'mydocs': mydocs,
         'doctorants':mydocs
          }
@@ -582,7 +889,12 @@ def evaluation_jury(request):
                         'fiches': evals,
                         'jury': jury,
                         'mydocs': mydocs,
-                        'doctorants':mydocs
+                        'doctorants':mydocs,
+                        'CFD':cfd,
+                        'CS':cs,
+                        'JURY':jury,
+                        'PROF':prof,
+                        'DT':dt,
                            })
                      
               if request.POST.get('Date'):
@@ -605,16 +917,24 @@ def evaluation_jury(request):
                      return render(request, 'gestion_FD/fiches_evaluation_employee.html', {
                          'uploaded_file_url': "succés ",
                          'jury': jury,
-                        'mydocs': mydocs,
-                        'doctorants':mydocs
+                         'mydocs': mydocs,
+                         'doctorants':mydocs,
+                         'CFD':cfd,
+                         'CS':cs,
+                         'JURY':jury,
+                         'PROF':prof,
+                         'DT':dt,
                         })
        else : 
           return render(request,'gestion_FD/fiches_evaluation_employee.html',context) 
               
          
 def valider_eval(request):
-    
    employe=Employe.objects.all()
+   cfd=False
+   prof=False
+   dt=False
+   jury=False
    cs=False
    for emp in employe: 
           if (emp.compte==request.user):
@@ -623,12 +943,25 @@ def valider_eval(request):
                  for role in roles:
                         if (role.nom=='CS'):
                                 cs=True
+                        if (role.nom=='CFD'):
+                                cfd=True
+                        if (role.nom=='JURY'):
+                                jury=True
+                        if (role.nom=='PROF'):
+                                prof=True
+                        if (role.nom=='DT'):
+                                dt=True
    fiches_nouvelles=Fiche_evaluation.objects.filter(valide__isnull=True).order_by('-date_eval')
    archive=Fiche_evaluation.objects.filter(valide__isnull=False).order_by('-date_eval')
    context={
         'cs':cs,
          'new': fiches_nouvelles,
-         'archive': archive
+         'archive': archive,
+         'CFD':cfd,
+         'CS':cs,
+         'JURY':jury,
+         'PROF':prof,
+         'DT':dt,
          }
    if request.method == 'POST':
           idf=request.POST['id_fiche']
@@ -639,7 +972,12 @@ def valider_eval(request):
           context2={
              'cs': cs,
              'new': Fiche_evaluation.objects.filter(valide__isnull=True).order_by('-date_eval'),
-             'archive' : Fiche_evaluation.objects.filter(valide__isnull=False).order_by('-date_eval')
+             'archive' : Fiche_evaluation.objects.filter(valide__isnull=False).order_by('-date_eval'),
+             'CFD':cfd,
+             'CS':cs,
+             'JURY':jury,
+             'PROF':prof,
+             'DT':dt,
           }
           return render(request,'gestion_FD/valider_evaluation.html', context2 )   
    else :
@@ -647,10 +985,27 @@ def valider_eval(request):
           
 def notes_prof(request):
  employe=Employe.objects.all()
+ cfd=False
+ prof=False
+ dt=False
+ jury=False
+ cs=False
  this_emp=None
  for emp in employe: 
           if (emp.compte==request.user):
                  this_emp=emp
+                 roles=this_emp.role.all()
+                 for role in roles:
+                        if (role.nom=='CS'):
+                                cs=True
+                        if (role.nom=='CFD'):
+                                cfd=True
+                        if (role.nom=='JURY'):
+                                jury=True
+                        if (role.nom=='PROF'):
+                                prof=True
+                        if (role.nom=='DT'):
+                                dt=True
  modules=Module.objects.filter(prof=this_emp)
  mydocs=[]
  for m in modules:
@@ -659,15 +1014,27 @@ def notes_prof(request):
                mydocs.append(d)
  mydocs= list(dict.fromkeys(mydocs))
  evals=Eval_module.objects.filter(module__in=modules,etudiant__in=mydocs).order_by('module')
- 
- context={'modules': modules, 'evals':evals}
+ context={'modules': modules, 'evals':evals, 
+             'CFD':cfd,
+             'CS':cs,
+             'JURY':jury,
+             'PROF':prof,
+             'DT':dt,}
  if request.method == 'POST' :
         if request.POST.get('modif') :
                id_eval=request.POST['id_eval']
                modif=request.POST['modif']
                Eval_module.objects.filter(id=id_eval).update(Note=modif)
                evals2=Eval_module.objects.filter(module__in=modules,etudiant__in=mydocs).order_by('module')
-               return render(request,'gestion_FD/notes_prof.html',{'modules':modules,'evals': evals2})
+               return render(request,'gestion_FD/notes_prof.html',{
+                  'modules':modules,
+                  'evals': evals2, 
+                  'CFD':cfd,
+                  'CS':cs,
+                  'JURY':jury,
+                  'PROF':prof,
+                  'DT':dt,
+               })
         else:
          myfile = request.FILES['notes']
          date_eval=request.POST['Date']
@@ -699,7 +1066,12 @@ def notes_prof(request):
          return render(request, 'gestion_FD/notes_prof.html', {
                            'uploaded_file_url': format,
                            'modules' : modules,
-                           'evals' : evals
+                           'evals' : evals,
+                           'CFD':cfd,
+                           'CS':cs,
+                           'JURY':jury,
+                           'PROF':prof,
+                           'DT':dt,
                            })
         
  else:     
