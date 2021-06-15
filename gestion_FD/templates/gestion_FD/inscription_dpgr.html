@@ -5,9 +5,20 @@
         MAIN CONTENT
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
+    <script language="javascript">
+      var x = 0;
+      function show(x) {
+          if(x == 0) {
+              document.getElementById("cont1").style.visibility="hidden";
+          }
+          if(x == 1) {
+              document.getElementById("cont1").style.visibility="visible";
+          }
+      }
+  </script>
     <section id="main-content">
       <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> Affectation des thèses</h3>
+        <h3><i class="fa fa-angle-right"></i> Doctorants inscris</h3>
         <div class="row">
           <div class="col-md-12">
             <div class="content-panel">
@@ -19,7 +30,9 @@
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Classement</th>
-                    <th>Choix attribué</th>
+                    {% for t in allthese%}
+                    <th>Choix n°{{forloop.counter}}</th>
+                    {% endfor %}
                   </tr>
                 </thead>
                 <tbody>
@@ -29,21 +42,69 @@
                     <td>{{ doc.prenom }}</td>
                     <td>{{ doc.classement_concours }}</td>
                     {%for ch in doc.choix.all %}
-                    {% if ch.prise%}
-                    <td>{{ ch.intitule }}</td>
-                    {%endif%}
-                    {% endfor %}
+                     {%for t in allthese %}
+                        {%if ch.id == t.id%}
+                            <td>{{ t.intitule }}</td>
+                        {%endif%}
+                       {% endfor %}
+                     {% endfor %}
                     </tr>
-                  {% endfor %}
+                   {% endfor %}
 
                 </tbody>
               </table>
+
             </div>
 
           </div>
           <!-- /col-md-12 -->
         </div>
+        <br></br>
+        <div class="col-md-12 text-center">
+          <button type="button" id="aff" class="btn btn-theme" style="background-color:#43b1a9;"  onclick="show(1);">Affectation Automatique des thèses</button>
+        </div>
+        <br></br>
+        
+        <div id="cont1" style="visibility: hidden;">
+        <h3><i class="fa fa-angle-right"></i> Affectation des choix des doctorants</h3>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i> Choix Finaux</h4>
+              <hr>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Classement</th>
+                    <th>Choix Final Attribué</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for doc in alldoctorants %}
+                    <tr>
+                    <td>{{ doc.nom }}</td>
+                    <td>{{ doc.prenom }}</td>
+                    <td>{{ doc.classement_concours }}</td>
+                    <!--{%for t in doc.choix.all%}
+                    {%if t.prise%}
+                    <td>{{ t.intitule }}</td>   
+                    {%endif%}
+                    {% endfor %}-->
+                    <td>{{doc.choixfinal}}</td>
+                    </tr>
+                   {% endfor %}
 
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+          <!-- /col-md-12 -->
+        </div>
+      </div>
       </section>
     </section>
     <!-- /MAIN CONTENT -->

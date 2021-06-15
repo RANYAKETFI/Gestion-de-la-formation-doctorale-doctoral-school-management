@@ -37,11 +37,13 @@
                     <td>{{   forloop.counter  }}</td>
                     <td>{{th.intitule}}</td>
                     {% for dt in th.dt.all %}
+                     {% for e in allemp%}
+                      {% if dt.id == e.id %}
+                      <td class="hidden-phone">{{dt.nom}} {{dt.prenom}}</td>   
+                      
+                      {% endif %}
+                     {% endfor %}
                     
-                    <td class="hidden-phone">{{dt.nom}} {{dt.prenom}}</td>
-                    {% if not dt.nom %}
-                    <td class="hidden-phone">None</td>
-                    {% endif %}
                     {% endfor %}
                     <td class="hidden-phone">{{ th.etab_part}}</td>
                     {% if th.valide_cfd %}

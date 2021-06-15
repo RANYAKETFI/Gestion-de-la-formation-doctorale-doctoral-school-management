@@ -595,22 +595,28 @@ def inscription(request):
         })
 def affecterthses(request):
     alldoctorants= Doctorant.objects.all()
+    allthese=These.objects.all()
     i=1
+    for p in allthese:
+       p.prise = False  
+       p.save()  
     while i<=len(alldoctorants):
       j=0
       for doc in alldoctorants:
          if (i==doc.classement_concours):
             choices=doc.choix.all()
             for t in choices:
-               if(t.prise==False):
-                  t.prise==True
-                  t.date=Date.now()
+               if t.prise == True:
+                  continue
+               else:
+                  t.prise=True
                   t.save()
                   doc.choixfinal=t.intitule
                   doc.save()
                   break
       i=i+1
-    return render(request,'gestion_FD/inscription_dpgr.html',{'alldoctorants':alldoctorants,'longeur':len(alldoctorants)})
+    return render(request,'gestion_FD/inscription_dpgr.html',{'alldoctorants':alldoctorants,'allthese':allthese,'longeur':len(alldoctorants)})
+
 def archiveetatAvancement(request):
    alldoctorants= Doctorant.objects.all()
    alletat= Etat_avancement.objects.all()
@@ -703,6 +709,7 @@ def lister_theses(request):
       theses.append(t)
    context ={
          'theses':theses, 
+         'allemp':employee,
          'CFD':cfd,
          'CS':cs,
          'JURY':jury,
