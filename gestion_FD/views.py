@@ -440,11 +440,13 @@ def dpgr(request):
    return render(request,'gestion_FD/index_dpgr.html',context)   
 def planifier_pres(request):
    titre=""
+   dkhl=""
    doctorants=Doctorant.objects.all()
    employes=Employe.objects.all()
    a=date.today()
-   
+   ju=False
    if request.method == 'POST' :
+     
      titre=request.POST['titre']
      date_pres=request.POST['date']
      heured=request.POST['heured']
@@ -460,10 +462,29 @@ def planifier_pres(request):
      i=0
      presentation=Presentation(date_pres=date_pres,heure_debut=heured,heure_fin=heuref,doctorant=docto)
      presentation.save()
+     
      for j in jury:
-          for e in employes : 
-             if  (e.id==int(jury[i])) :
-                presentation.jury.add(e)
+          
+          for emp in Employe.objects.all() : 
+             
+             if  (emp.id==int(jury[i])) :
+                
+                presentation.jury.add(emp)
+                for ro in emp.role.all():
+                    
+                    if ro.nom=="JURY" :
+                      
+                       ju==True
+                    break
+                
+                if not ju :
+                   
+                   for rol in Role.objects.all():
+                      if rol.nom=="JURY" :
+                         
+                         emp.role.add(rol) 
+                         emp.save() 
+                   
           i=i+1
      presentation.save()      
      return redirect("/dpgr")
