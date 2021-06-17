@@ -765,20 +765,15 @@ def inscription_cfd(request):
                dt=True
    
    doctorants=Doctorant.objects.all()
-   doc_name=""
-   doc_prenom=""
    theses = []
    for doc in doctorants:
       for t in doc.choix.all(): 
         if (t.prise):
-           doc_name=doc.nom
-           doc_prenom=doc.prenom
            theses.append(t)
 
    context ={
       'theses':theses,
-      'nom_doc':doc_name,
-      'prenom_doc':doc_prenom,
+      'doc':doctorants,
       'CFD':cfd,
       'CS':cs,
       'JURY':jury,
